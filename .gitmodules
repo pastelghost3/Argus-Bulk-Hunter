@@ -1,0 +1,3 @@
+[submodule "argus-core"]
+	path = argus-core
+	url = https://github.com/pastelghost3/Argus-Security.git

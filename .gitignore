@@ -1,0 +1,6 @@
+findings/
+venv/
+*.pyc
+__pycache__/
+.env
+argus-core/

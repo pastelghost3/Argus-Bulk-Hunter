@@ -1,0 +1,562 @@
+[
+  {
+    "timestamp": "2026-11-10T21:28:49.461731",
+    "type": "scan_complete",
+    "details": {
+      "repo": "rankingenem",
+      "path": "/home/melancholy/Argus-Bulk-Hunter/findings/rankingenem"
+    }
+  },
+  {
+    "timestamp": "2026-11-10T21:29:12.353210",
+    "type": "scan_complete",
+    "details": {
+      "repo": "future-architect/arch-guidelines",
+      "path": "/home/melancholy/Argus-Bulk-Hunter/findings/future-architect_arch-guidelines"
+    }
+  },
+  {
+    "timestamp": "2026-11-10T21:39:38.321698",
+    "type": "scan_complete",
+    "details": {
+      "repo": "AmyangXYZ/reze-mipo",
+      "path": "/home/melancholy/Argus-Bulk-Hunter/findings/AmyangXYZ_reze-mipo"
+    }
+  },
+  {
+    "timestamp": "2026-11-10T21:39:53.862462",
+    "type": "scan_complete",
+    "details": {
+      "repo": "kbwo/ccmanager",
+      "path": "/home/melancholy/Argus-Bulk-Hunter/findings/kbwo_ccmanager"
+    }
+  },
+  {
+    "timestamp": "2026-11-10T21:55:49.333794",
+    "type": "scan_complete",
+    "details": {
+      "repo": "NovyWave/NovyWave",
+      "path": "/home/melancholy/Argus-Bulk-Hunter/findings/NovyWave_NovyWave"
+    }
+  },
+  {
+    "timestamp": "2026-11-10T22:06:03.109642",
+    "type": "scan_complete",
+    "details": {
+      "repo": "shader-slang/slang-rhi",
+      "path": "/home/melancholy/Argus-Bulk-Hunter/findings/shader-slang_slang-rhi"
+    }
+  },
+  {
+    "timestamp": "2026-11-10T22:06:17.438175",
+    "type": "scan_complete",
+    "details": {
+      "repo": "pokutuna/mcp-chrome-tabs",
+      "path": "/home/melancholy/Argus-Bulk-Hunter/findings/pokutuna_mcp-chrome-tabs"
+    }
+  },
+  {
+    "timestamp": "2026-11-10T22:09:14.915015",
+    "type": "scan_complete",
+    "details": {
+      "repo": "rinadelph/Rapala",
+      "path": "/home/melancholy/Argus-Bulk-Hunter/findings/rinadelph_Rapala"
+    }
+  },
+  {
+    "timestamp": "2026-11-10T22:13:57.130527",
+    "type": "scan_complete",
+    "details": {
+      "repo": "jdubray/puffin",
+      "path": "/home/melancholy/Argus-Bulk-Hunter/findings/jdubray_puffin"
+    }
+  },
+  {
+    "timestamp": "2026-11-10T22:14:29.704901",
+    "type": "scan_complete",
+    "details": {
+      "repo": "zxpsuper/qrcode-with-logos",
+      "path": "/home/melancholy/Argus-Bulk-Hunter/findings/zxpsuper_qrcode-with-logos"
+    }
+  },
+  {
+    "timestamp": "2026-11-10T22:21:05.066766",
+    "type": "scan_complete",
+    "details": {
+      "repo": "tidepool-heavy-industries/exomonad",
+      "path": "/home/melancholy/Argus-Bulk-Hunter/findings/tidepool-heavy-industries_exomonad"
+    }
+  },
+  {
+    "timestamp": "2026-11-10T22:38:17.493808",
+    "type": "scan_complete",
+    "details": {
+      "repo": "DaltonCalford/ScratchBird-legacy",
+      "path": "/home/melancholy/Argus-Bulk-Hunter/findings/DaltonCalford_ScratchBird-legacy"
+    }
+  },
+  {
+    "timestamp": "2026-11-10T22:43:04.453517",
+    "type": "scan_complete",
+    "details": {
+      "repo": "jamportz/OpenPBR-viewer",
+      "path": "/home/melancholy/Argus-Bulk-Hunter/findings/jamportz_OpenPBR-viewer"
+    }
+  },
+  {
+    "timestamp": "2026-11-10T22:43:21.049550",
+    "type": "scan_complete",
+    "details": {
+      "repo": "hex0xdeadbeef/claude-kit",
+      "path": "/home/melancholy/Argus-Bulk-Hunter/findings/hex0xdeadbeef_claude-kit"
+    }
+  },
+  {
+    "timestamp": "2026-11-10T22:49:11.106560",
+    "type": "scan_complete",
+    "details": {
+      "repo": "ln2146/EvoCorps",
+      "path": "/home/melancholy/Argus-Bulk-Hunter/findings/ln2146_EvoCorps"
+    }
+  },
+  {
+    "timestamp": "2026-11-10T22:51:27.817165",
+    "type": "scan_complete",
+    "details": {
+      "repo": "achimala/farfield",
+      "path": "/home/melancholy/Argus-Bulk-Hunter/findings/achimala_farfield"
+    }
+  },
+  {
+    "timestamp": "2026-11-10T23:02:58.648119",
+    "type": "scan_complete",
+    "details": {
+      "repo": "Dowwie/tasker",
+      "path": "/home/melancholy/Argus-Bulk-Hunter/findings/Dowwie_tasker"
+    }
+  },
+  {
+    "timestamp": "2026-11-10T23:04:09.641486",
+    "type": "scan_complete",
+    "details": {
+      "repo": "DimitriGeelen/agentic-engineering-framework",
+      "path": "/home/melancholy/Argus-Bulk-Hunter/findings/DimitriGeelen_agentic-engineering-framework"
+    }
+  },
+  {
+    "timestamp": "2026-11-10T23:12:04.971001",
+    "type": "scan_complete",
+    "details": {
+      "repo": "matiaszanolli/Auralis",
+      "path": "/home/melancholy/Argus-Bulk-Hunter/findings/matiaszanolli_Auralis"
+    }
+  },
+  {
+    "timestamp": "2026-11-10T23:23:32.776730",
+    "type": "scan_complete",
+    "details": {
+      "repo": "quantified-uncertainty/roast-my-post",
+      "path": "/home/melancholy/Argus-Bulk-Hunter/findings/quantified-uncertainty_roast-my-post"
+    }
+  },
+  {
+    "timestamp": "2026-11-10T23:23:48.510772",
+    "type": "scan_complete",
+    "details": {
+      "repo": "bashandbone/submod",
+      "path": "/home/melancholy/Argus-Bulk-Hunter/findings/bashandbone_submod"
+    }
+  },
+  {
+    "timestamp": "2026-11-10T23:24:06.716735",
+    "type": "scan_complete",
+    "details": {
+      "repo": "Delphine-L/claude_global",
+      "path": "/home/melancholy/Argus-Bulk-Hunter/findings/Delphine-L_claude_global"
+    }
+  },
+  {
+    "timestamp": "2026-11-10T23:24:37.620717",
+    "type": "scan_complete",
+    "details": {
+      "repo": "thoughtspot/thoughtspot-agent-skills",
+      "path": "/home/melancholy/Argus-Bulk-Hunter/findings/thoughtspot_thoughtspot-agent-skills"
+    }
+  },
+  {
+    "timestamp": "2026-11-10T23:25:22.315177",
+    "type": "scan_complete",
+    "details": {
+      "repo": "ElPuig/EMS",
+      "path": "/home/melancholy/Argus-Bulk-Hunter/findings/ElPuig_EMS"
+    }
+  },
+  {
+    "timestamp": "2026-11-10T23:38:37.498803",
+    "type": "scan_complete",
+    "details": {
+      "repo": "EyeSeeTea/d2-autogen-forms",
+      "path": "/home/melancholy/Argus-Bulk-Hunter/findings/EyeSeeTea_d2-autogen-forms"
+    }
+  },
+  {
+    "timestamp": "2026-11-10T23:38:51.709616",
+    "type": "scan_complete",
+    "details": {
+      "repo": "tom-doerr/cc_approver",
+      "path": "/home/melancholy/Argus-Bulk-Hunter/findings/tom-doerr_cc_approver"
+    }
+  },
+  {
+    "timestamp": "2026-11-10T23:39:07.368843",
+    "type": "scan_complete",
+    "details": {
+      "repo": "carl10086/ys-powers",
+      "path": "/home/melancholy/Argus-Bulk-Hunter/findings/carl10086_ys-powers"
+    }
+  },
+  {
+    "timestamp": "2026-11-10T23:40:24.553738",
+    "type": "scan_complete",
+    "details": {
+      "repo": "tomphill/liftingdiarycourse",
+      "path": "/home/melancholy/Argus-Bulk-Hunter/findings/tomphill_liftingdiarycourse"
+    }
+  },
+  {
+    "timestamp": "2026-11-10T23:50:57.738841",
+    "type": "scan_complete",
+    "details": {
+      "repo": "chaojimct/clipboardx",
+      "path": "/home/melancholy/Argus-Bulk-Hunter/findings/chaojimct_clipboardx"
+    }
+  },
+  {
+    "timestamp": "2026-11-10T23:56:47.011811",
+    "type": "scan_complete",
+    "details": {
+      "repo": "eltmon/overdeck",
+      "path": "/home/melancholy/Argus-Bulk-Hunter/findings/eltmon_overdeck"
+    }
+  },
+  {
+    "timestamp": "2026-11-11T00:07:21.854298",
+    "type": "scan_complete",
+    "details": {
+      "repo": "pjastam/ResearchVault",
+      "path": "/home/melancholy/Argus-Bulk-Hunter/findings/pjastam_ResearchVault"
+    }
+  },
+  {
+    "timestamp": "2026-11-11T00:15:11.367798",
+    "type": "scan_complete",
+    "details": {
+      "repo": "kimeisele/vibe-agency",
+      "path": "/home/melancholy/Argus-Bulk-Hunter/findings/kimeisele_vibe-agency"
+    }
+  },
+  {
+    "timestamp": "2026-11-11T00:19:57.665004",
+    "type": "scan_complete",
+    "details": {
+      "repo": "nasa-jpl/tasksat",
+      "path": "/home/melancholy/Argus-Bulk-Hunter/findings/nasa-jpl_tasksat"
+    }
+  },
+  {
+    "timestamp": "2026-11-11T00:22:58.148492",
+    "type": "scan_complete",
+    "details": {
+      "repo": "XGrowthLab/xhub",
+      "path": "/home/melancholy/Argus-Bulk-Hunter/findings/XGrowthLab_xhub"
+    }
+  },
+  {
+    "timestamp": "2026-11-11T00:23:31.935647",
+    "type": "scan_complete",
+    "details": {
+      "repo": "miles990/multi-agent-workflow",
+      "path": "/home/melancholy/Argus-Bulk-Hunter/findings/miles990_multi-agent-workflow"
+    }
+  },
+  {
+    "timestamp": "2026-11-11T00:23:53.969532",
+    "type": "scan_complete",
+    "details": {
+      "repo": "Zenobia000/iSpan_linux_basic_course",
+      "path": "/home/melancholy/Argus-Bulk-Hunter/findings/Zenobia000_iSpan_linux_basic_course"
+    }
+  },
+  {
+    "timestamp": "2026-11-11T00:27:50.207689",
+    "type": "scan_complete",
+    "details": {
+      "repo": "dderyldowney/todowrite",
+      "path": "/home/melancholy/Argus-Bulk-Hunter/findings/dderyldowney_todowrite"
+    }
+  },
+  {
+    "timestamp": "2026-11-11T00:38:11.281593",
+    "type": "scan_complete",
+    "details": {
+      "repo": "flanliulf/build-genui-agent-with-langgraph-and-claudecode",
+      "path": "/home/melancholy/Argus-Bulk-Hunter/findings/flanliulf_build-genui-agent-with-langgraph-and-claudecode"
+    }
+  },
+  {
+    "timestamp": "2026-11-11T00:40:27.060725",
+    "type": "scan_complete",
+    "details": {
+      "repo": "miskibin/py-draughts",
+      "path": "/home/melancholy/Argus-Bulk-Hunter/findings/miskibin_py-draughts"
+    }
+  },
+  {
+    "timestamp": "2026-11-11T00:40:43.356188",
+    "type": "scan_complete",
+    "details": {
+      "repo": "tommasobbianchi/OrcaSlicer-Model-Search-Plugin",
+      "path": "/home/melancholy/Argus-Bulk-Hunter/findings/tommasobbianchi_OrcaSlicer-Model-Search-Plugin"
+    }
+  },
+  {
+    "timestamp": "2026-11-11T00:41:03.114623",
+    "type": "scan_complete",
+    "details": {
+      "repo": "OmerZeyveli/kinglet-unity",
+      "path": "/home/melancholy/Argus-Bulk-Hunter/findings/OmerZeyveli_kinglet-unity"
+    }
+  },
+  {
+    "timestamp": "2026-11-11T00:45:28.512108",
+    "type": "scan_complete",
+    "details": {
+      "repo": "HsuanYuLee/polaris",
+      "path": "/home/melancholy/Argus-Bulk-Hunter/findings/HsuanYuLee_polaris"
+    }
+  },
+  {
+    "timestamp": "2026-11-11T00:46:53.416948",
+    "type": "scan_complete",
+    "details": {
+      "repo": "zabiny/klabis",
+      "path": "/home/melancholy/Argus-Bulk-Hunter/findings/zabiny_klabis"
+    }
+  },
+  {
+    "timestamp": "2026-11-11T00:47:18.315560",
+    "type": "scan_complete",
+    "details": {
+      "repo": "rlcurrall/aide",
+      "path": "/home/melancholy/Argus-Bulk-Hunter/findings/rlcurrall_aide"
+    }
+  },
+  {
+    "timestamp": "2026-11-11T00:50:10.734890",
+    "type": "scan_complete",
+    "details": {
+      "repo": "VirtoCommerce/ai-tools",
+      "path": "/home/melancholy/Argus-Bulk-Hunter/findings/VirtoCommerce_ai-tools"
+    }
+  },
+  {
+    "timestamp": "2026-11-11T01:00:28.817220",
+    "type": "scan_complete",
+    "details": {
+      "repo": "STRRL/shell-now",
+      "path": "/home/melancholy/Argus-Bulk-Hunter/findings/STRRL_shell-now"
+    }
+  },
+  {
+    "timestamp": "2026-11-11T01:00:44.989965",
+    "type": "scan_complete",
+    "details": {
+      "repo": "CesarBallardini/ansible-devops-workstation",
+      "path": "/home/melancholy/Argus-Bulk-Hunter/findings/CesarBallardini_ansible-devops-workstation"
+    }
+  },
+  {
+    "timestamp": "2026-11-11T01:02:30.488512",
+    "type": "scan_complete",
+    "details": {
+      "repo": "arkanwolfshade/MythosMUD",
+      "path": "/home/melancholy/Argus-Bulk-Hunter/findings/arkanwolfshade_MythosMUD"
+    }
+  },
+  {
+    "timestamp": "2026-11-11T01:14:33.945114",
+    "type": "scan_complete",
+    "details": {
+      "repo": "eliottcassidy2000/math",
+      "path": "/home/melancholy/Argus-Bulk-Hunter/findings/eliottcassidy2000_math"
+    }
+  },
+  {
+    "timestamp": "2026-11-11T01:17:15.562503",
+    "type": "scan_complete",
+    "details": {
+      "repo": "typingincolor/bujo",
+      "path": "/home/melancholy/Argus-Bulk-Hunter/findings/typingincolor_bujo"
+    }
+  },
+  {
+    "timestamp": "2026-11-11T01:18:35.351188",
+    "type": "scan_complete",
+    "details": {
+      "repo": "Th3X-Zohir/cortex",
+      "path": "/home/melancholy/Argus-Bulk-Hunter/findings/Th3X-Zohir_cortex"
+    }
+  },
+  {
+    "timestamp": "2026-11-11T01:21:25.804470",
+    "type": "scan_complete",
+    "details": {
+      "repo": "themegrill/colormag",
+      "path": "/home/melancholy/Argus-Bulk-Hunter/findings/themegrill_colormag"
+    }
+  },
+  {
+    "timestamp": "2026-11-11T01:21:42.175985",
+    "type": "scan_complete",
+    "details": {
+      "repo": "koreyba/Claude-Skill-pdf-to-epub",
+      "path": "/home/melancholy/Argus-Bulk-Hunter/findings/koreyba_Claude-Skill-pdf-to-epub"
+    }
+  },
+  {
+    "timestamp": "2026-11-11T01:24:17.050742",
+    "type": "scan_complete",
+    "details": {
+      "repo": "tkoyama010/dotfiles",
+      "path": "/home/melancholy/Argus-Bulk-Hunter/findings/tkoyama010_dotfiles"
+    }
+  },
+  {
+    "timestamp": "2026-11-11T01:28:45.411499",
+    "type": "scan_complete",
+    "details": {
+      "repo": "junior-rahman/kalshi-trading-team",
+      "path": "/home/melancholy/Argus-Bulk-Hunter/findings/junior-rahman_kalshi-trading-team"
+    }
+  },
+  {
+    "timestamp": "2026-11-11T01:29:17.832198",
+    "type": "scan_complete",
+    "details": {
+      "repo": "joelbcastillo/dotfiles",
+      "path": "/home/melancholy/Argus-Bulk-Hunter/findings/joelbcastillo_dotfiles"
+    }
+  },
+  {
+    "timestamp": "2026-11-11T01:29:49.093138",
+    "type": "scan_complete",
+    "details": {
+      "repo": "EmergenceAI/EM-AISoftwareFactory",
+      "path": "/home/melancholy/Argus-Bulk-Hunter/findings/EmergenceAI_EM-AISoftwareFactory"
+    }
+  },
+  {
+    "timestamp": "2026-11-11T01:34:43.440631",
+    "type": "scan_complete",
+    "details": {
+      "repo": "orangekame3/oqtopus-experiments",
+      "path": "/home/melancholy/Argus-Bulk-Hunter/findings/orangekame3_oqtopus-experiments"
+    }
+  },
+  {
+    "timestamp": "2026-11-11T01:35:48.869799",
+    "type": "scan_complete",
+    "details": {
+      "repo": "workoho/spfx-guest-sponsor-info",
+      "path": "/home/melancholy/Argus-Bulk-Hunter/findings/workoho_spfx-guest-sponsor-info"
+    }
+  },
+  {
+    "timestamp": "2026-11-11T01:36:05.629799",
+    "type": "scan_complete",
+    "details": {
+      "repo": "little-scale/smsggdj",
+      "path": "/home/melancholy/Argus-Bulk-Hunter/findings/little-scale_smsggdj"
+    }
+  },
+  {
+    "timestamp": "2026-11-11T01:43:17.530552",
+    "type": "scan_complete",
+    "details": {
+      "repo": "bossjones/zsh-dotfiles",
+      "path": "/home/melancholy/Argus-Bulk-Hunter/findings/bossjones_zsh-dotfiles"
+    }
+  },
+  {
+    "timestamp": "2026-11-11T01:43:59.783556",
+    "type": "scan_complete",
+    "details": {
+      "repo": "mmp/squall",
+      "path": "/home/melancholy/Argus-Bulk-Hunter/findings/mmp_squall"
+    }
+  },
+  {
+    "timestamp": "2026-11-11T01:44:30.664557",
+    "type": "scan_complete",
+    "details": {
+      "repo": "Generation-i-Systems/audiobook-librarian-server",
+      "path": "/home/melancholy/Argus-Bulk-Hunter/findings/Generation-i-Systems_audiobook-librarian-server"
+    }
+  },
+  {
+    "timestamp": "2026-11-11T01:45:36.672238",
+    "type": "scan_complete",
+    "details": {
+      "repo": "IgnacioOQ/multiagentrecommendation",
+      "path": "/home/melancholy/Argus-Bulk-Hunter/findings/IgnacioOQ_multiagentrecommendation"
+    }
+  },
+  {
+    "timestamp": "2026-11-11T02:03:42.801970",
+    "type": "scan_complete",
+    "details": {
+      "repo": "ComputerScienceHouse/packet",
+      "path": "/home/melancholy/Argus-Bulk-Hunter/findings/ComputerScienceHouse_packet"
+    }
+  },
+  {
+    "timestamp": "2026-11-11T02:04:01.465841",
+    "type": "scan_complete",
+    "details": {
+      "repo": "AgoraIO-Usecase/Video-Calling",
+      "path": "/home/melancholy/Argus-Bulk-Hunter/findings/AgoraIO-Usecase_Video-Calling"
+    }
+  },
+  {
+    "timestamp": "2026-11-11T02:04:19.349634",
+    "type": "scan_complete",
+    "details": {
+      "repo": "snikket-im/snikket-web-portal",
+      "path": "/home/melancholy/Argus-Bulk-Hunter/findings/snikket-im_snikket-web-portal"
+    }
+  },
+  {
+    "timestamp": "2026-11-11T02:04:42.713700",
+    "type": "scan_complete",
+    "details": {
+      "repo": "AgoraIO-Usecase/AgoraMeeting",
+      "path": "/home/melancholy/Argus-Bulk-Hunter/findings/AgoraIO-Usecase_AgoraMeeting"
+    }
+  },
+  {
+    "timestamp": "2026-11-11T02:10:24.844613",
+    "type": "scan_complete",
+    "details": {
+      "repo": "ComputerScienceHouse/gallery",
+      "path": "/home/melancholy/Argus-Bulk-Hunter/findings/ComputerScienceHouse_gallery"
+    }
+  },
+  {
+    "timestamp": "2026-11-11T02:11:45.160682",
+    "type": "scan_complete",
+    "details": {
+      "repo": "Devaansh07/Stock_Trading_Agent",
+      "path": "/home/melancholy/Argus-Bulk-Hunter/findings/Devaansh07_Stock_Trading_Agent"
+    }
+  }
+]

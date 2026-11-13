@@ -4,94 +4,125 @@ import subprocess
 import requests
 import time
 import json
-import re
+import shutil
 from pathlib import Path
-from datetime import datetime
 
-# ---------------------------------------------------------------------------
 # Configuration
-# ---------------------------------------------------------------------------
 GITHUB_TOKEN = os.getenv("GITHUB_TOKEN")
 BASE_DIR = Path(__file__).parent.resolve()
 ARGUS_PATH = BASE_DIR / "argus-core"
 RESULTS_DIR = BASE_DIR / "findings"
 TARGETS_FILE = BASE_DIR / "targets.txt"
-LOG_FILE = BASE_DIR / "hunt_log.json"
+TRUFFLEHOG_PATH = "/usr/local/bin/trufflehog" # Adjust if installed elsewhere
 
-# Advanced Search Patterns (Regex & File-based)
-SEARCH_PROFILES = {
-    "claude_leaks": {
-        "query": "filename:settings.local.json path:.claude",
-        "description": "Claude Code local settings with potential secrets"
-    },
-    "python_envs": {
-        "query": "filename:.env language:python",
-        "description": "Python environment files"
-    },
-    "js_configs": {
-        "query": "filename:config.js OR filename:config.json language:javascript",
-        "description": "JavaScript configuration files"
-    },
-    "hardcoded_keys": {
-        "query": '"api_key" OR "secret_key" OR "password" extension:py OR extension:js',
-        "description": "Hardcoded credentials in source code"
-    }
-}
-
-def log_event(event_type, details):
-    """Log events to a local JSON file for tracking."""
-    log_entry = {"timestamp": datetime.now().isoformat(), "type": event_type, "details": details}
-    logs = []
-    if LOG_FILE.exists():
-        try:
-            logs = json.loads(LOG_FILE.read_text())
-        except json.JSONDecodeError:
-            logs = []
-    logs.append(log_entry)
-    LOG_FILE.write_text(json.dumps(logs, indent=2))
-
-def search_github(query, per_page=30, max_pages=5):
-    """Search GitHub Code API with pagination and rate-limit handling."""
+def search_github(query, per_page=30, max_pages=3):
     headers = {"Authorization": f"token {GITHUB_TOKEN}", "Accept": "application/vnd.github.v3+json"}
     all_items = []
-    
     for page in range(1, max_pages + 1):
         url = f"https://api.github.com/search/code?q={query}&per_page={per_page}&page={page}"
-        print(f"🔍 Searching page {page}/{max_pages}...")
+        print(f"🔍 Global Hunt: Searching page {page} for '{query}'...")
         try:
             response = requests.get(url, headers=headers)
-            if response.status_code == 403:
-                print("⚠️ Rate limit reached. Waiting 60 seconds...")
-                time.sleep(60)
-                continue
             data = response.json()
             items = data.get('items', [])
-            if not items:
-                break 
+            if not items: break 
             all_items.extend(items)
-            time.sleep(2) # Respect secondary rate limits
+            time.sleep(2) 
         except Exception as e:
             print(f"❌ API Error on page {page}: {e}")
             break
-            
     return all_items
 
+def run_trufflehog_scan(target_dir):
+    """Runs TruffleHog and returns a list of verified/high-confidence findings."""
+    if not os.path.exists(TRUFFLEHOG_PATH):
+        print("   ⚠️ TruffleHog not found at expected path. Skipping.")
+        return []
+
+    report_path = target_dir / "trufflehog_results.jsonl"
+    cmd = [
+        TRUFFLEHOG_PATH, "filesystem", str(target_dir),
+        "--json", "--no-update", "--fail"
+    ]
+    
+    findings = []
+    try:
+        with open(report_path, 'w') as f:
+            subprocess.run(cmd, stdout=f, stderr=subprocess.DEVNULL, timeout=300)
+        
+        # Parse JSONL
+        if report_path.exists():
+            with open(report_path, 'r') as f:
+                for line in f:
+                    if line.strip():
+                        try:
+                            data = json.loads(line)
+                            # Filter for high-value secrets (exclude common test mocks if desired)
+                            if data.get('Raw'):
+                                findings.append({
+                                    "type": data.get('DetectorName', 'Unknown'),
+                                    "secret": data.get('Raw', '')[:50] + "...",
+                                    "file": data.get('SourceMetadata', {}).get('Data', {}).get('Filesystem', {}).get('file', 'N/A'),
+                                    "verified": data.get('Verified', False)
+                                })
+                        except json.JSONDecodeError:
+                            continue
+    except subprocess.TimeoutExpired:
+        print("   ⚠️ TruffleHog scan timed out.")
+    except Exception as e:
+        print(f"   ⚠️ TruffleHog error: {e}")
+        
+    return findings
+
 def clone_and_scan(repo_url, repo_name):
-    """Clone a repo and run the full Argus security pipeline."""
     target_dir = RESULTS_DIR / repo_name.replace("/", "_")
     analyzer = ARGUS_PATH / "scripts" / "hybrid_analyzer.py"
     
+    # 1. Clone if needed
     if not target_dir.exists():
         print(f"📥 Cloning {repo_name}...")
         try:
             subprocess.run(["git", "clone", "--depth", "1", repo_url, str(target_dir)], 
-                           capture_output=True, check=True)
+                           capture_output=True, check=True, timeout=60)
         except subprocess.CalledProcessError:
             print(f"❌ Failed to clone {repo_name}")
             return
 
-    print(f"🚀 Running Full Argus Scan on {repo_name}...")
+    print(f"🚀 Running Enhanced Secret Hunt on {repo_name}...")
     
+    # 2. Run Aggressive Gitleaks with Custom Config
+    gitleaks_report = target_dir / "aggressive-gitleaks.json"
+    gitleaks_cmd = [
+        "gitleaks", "detect", 
+        "--source", str(target_dir),
+        "--report-format", "json",
+        "--report-path", str(gitleaks_report),
+        "--config", "aggressive-gitleaks.toml", # Point to our new file
+        "--no-banner"
+    ]
+    try:
+        subprocess.run(gitleaks_cmd, check=True, capture_output=True)
+        print(f"   🔍 Aggressive Gitleaks complete: {gitleaks_report}")
+    except subprocess.CalledProcessError:
+        print(f"   ⚠️ Gitleaks found issues or failed.")
+
+    # 3. Run TruffleHog (Great for base64 and history)
+    trufflehog_report = target_dir / "trufflehog.json"
+    trufflehog_cmd = [
+        "trufflehog", "filesystem", str(target_dir),
+        "--json",
+        "--fail",
+        "--no-update"
+    ]
+    try:
+        # Note: TruffleHog outputs to stdout, so we redirect to file
+        with open(trufflehog_report, 'w') as f:
+            subprocess.run(trufflehog_cmd, stdout=f, stderr=subprocess.DEVNULL)
+        print(f"   🕵️ TruffleHog complete: {trufflehog_report}")
+    except Exception as e:
+        print(f"   ⚠️ TruffleHog error: {e}")
+
+    # 4. Run Full Argus Pipeline
     cmd = [
         sys.executable, str(analyzer), str(target_dir),
         "--no-enable-ai-enrichment",      
@@ -105,21 +136,26 @@ def clone_and_scan(repo_url, repo_name):
     
     try:
         result = subprocess.run(cmd, text=True, timeout=600) 
+        
+        # CLEANUP: Delete the .git folder to save space
+        git_folder = target_dir / ".git"
+        if git_folder.exists():
+            import shutil
+            shutil.rmtree(git_folder)
+            print(f"   🧹 Cleaned .git folder for {repo_name}")
+
         argus_folder = target_dir / ".argus"
         if argus_folder.exists():
-            print(f"   ✅ Scan data saved for {repo_name}")
-            log_event("scan_complete", {"repo": repo_name, "path": str(target_dir)})
+            print(f"   ✅ Argus Scan data saved for {repo_name}")
         else:
-            print(f"   ⚠️ Scan finished but no data folder found for {repo_name}")
+            print(f"   ⚠️ Argus finished but no data folder found for {repo_name}")
     except subprocess.TimeoutExpired:
-        print(f"   ❌ Scan timed out for {repo_name}")
+        print(f"   ❌ Argus Scan timed out for {repo_name}")
     except Exception as e:
-        print(f"   ❌ Error during scan: {e}")
+        print(f"   ❌ Argus Error: {e}")
 
-def process_static_targets():
-    """Process repos listed in targets.txt."""
-    if not TARGETS_FILE.exists():
-        return
+def process_targets():
+    if not TARGETS_FILE.exists(): return
     with open(TARGETS_FILE, 'r') as f:
         targets = [line.strip() for line in f if line.strip()]
     for target in targets:
@@ -133,17 +169,18 @@ def main():
         return
 
     RESULTS_DIR.mkdir(exist_ok=True)
-    print("🚀 Starting Argus Bulk Hunter v2.0...")
+    print("🚀 Starting Argus Bulk Hunter v2.0 (Pro Mode)...")
+    process_targets()
     
-    # 1. Process static targets
-    process_static_targets()
+    search_queries = [
+        "filename:settings.local.json path:.claude",
+        "filename:.env language:python",
+        "filename:config.js language:javascript"
+    ]
     
-    # 2. Dynamic Hunt with Pagination
     processed_repos = set()
-    
-    for profile_name, profile in SEARCH_PROFILES.items():
-        print(f"\n--- Profile: {profile['description']} ---")
-        items = search_github(profile['query'], max_pages=3)
+    for query in search_queries:
+        items = search_github(query, max_pages=3)
         for item in items:
             repo_name = item['repository']['full_name']
             if repo_name not in processed_repos:

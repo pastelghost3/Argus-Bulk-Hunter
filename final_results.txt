@@ -1,0 +1,532 @@
+=== ARGUS BULK HUNT RESULTS ===
+Generated on: Wed Nov 11 11:23:43 CST 2026
+
+🔴 REPO: tomphill/liftingdiarycourse
+-------------------------------------------
+   [CRITICAL] | SI-2 | Flaw Remediation |  | critical | trivy-GHSA-2464-fhr4-w9xw |
+   [CRITICAL] | 6.3 | Security Vulnerabilities Are Identified and Addressed |  | critical | trivy-GHSA-2464-fhr4-w9xw |
+   [CRITICAL] | CC7.2 | Monitoring and Detection |  | critical | trivy-GHSA-2464-fhr4-w9xw |
+
+🔴 REPO: kimeisele/vibe-agency
+-------------------------------------------
+   [CRITICAL] | SI-2 | Flaw Remediation |  | critical | trivy-GHSA-6q48-6c7w-9gw2 |
+   [CRITICAL] | 6.3 | Security Vulnerabilities Are Identified and Addressed |  | critical | trivy-GHSA-6q48-6c7w-9gw2 |
+   [CRITICAL] | CC7.2 | Monitoring and Detection |  | critical | trivy-GHSA-6q48-6c7w-9gw2 |
+   [HIGH]     | IA-5 | Authenticator Management | CWE-798 | high | heuristic-59 |
+   [HIGH]     | SI-10 | Information Input Validation | CWE-89 | high | heuristic-11 |
+   [HIGH]     | 6.2.4 | Software Engineering Techniques | CWE-89 | high | heuristic-11 |
+   [HIGH]     | 8.6 | Authentication Mechanism Management | CWE-798 | high | heuristic-59 |
+   [HIGH]     | A03:2021 | Injection | CWE-89 | high | heuristic-11 |
+   [HIGH]     | A07:2021 | Identification and Authentication Failures | CWE-798 | high | heuristic-59 |
+   [HIGH]     | CC6.1 | Logical and Physical Access Controls | CWE-89 | high | heuristic-11 |
+
+🔴 REPO: zxpsuper/qrcode-with-logos
+-------------------------------------------
+   [HIGH]     | SI-2 | Flaw Remediation |  | high | workflow-hardening-unpinned-action-.github/workflows/deploy.yml-build-and-deploy-0-17 |
+   [HIGH]     | 6.3 | Security Vulnerabilities Are Identified and Addressed |  | high | workflow-hardening-unpinned-action-.github/workflows/deploy.yml-build-and-deploy-0-17 |
+
+🔴 REPO: Generation-i-Systems/audiobook-librarian-server
+-------------------------------------------
+   [HIGH]     | SI-10 | Information Input Validation | CWE-79 | high | heuristic-26 |
+   [HIGH]     | SI-2 | Flaw Remediation |  | high | workflow-hardening-unpinned-action-.github/workflows/api-tests.yml-api-tests-0-29 |
+   [HIGH]     | 6.2.4 | Software Engineering Techniques | CWE-79 | high | heuristic-26 |
+   [HIGH]     | 6.3 | Security Vulnerabilities Are Identified and Addressed |  | high | workflow-hardening-unpinned-action-.github/workflows/api-tests.yml-api-tests-0-29 |
+   [HIGH]     | A03:2021 | Injection | CWE-79 | high | heuristic-26 |
+   [HIGH]     | CC6.1 | Logical and Physical Access Controls | CWE-79 | high | heuristic-26 |
+
+🔴 REPO: pokutuna/mcp-chrome-tabs
+-------------------------------------------
+   [HIGH]     | SI-2 | Flaw Remediation |  | high | workflow-hardening-unpinned-action-.github/workflows/publish.yml-publish-0-50 |
+   [HIGH]     | 6.3 | Security Vulnerabilities Are Identified and Addressed |  | high | workflow-hardening-unpinned-action-.github/workflows/publish.yml-publish-0-50 |
+
+🔴 REPO: matiaszanolli/Auralis
+-------------------------------------------
+   [CRITICAL] | SI-2 | Flaw Remediation |  | critical | trivy-GHSA-6q48-6c7w-9gw2 |
+   [CRITICAL] | 6.3 | Security Vulnerabilities Are Identified and Addressed |  | critical | trivy-GHSA-6q48-6c7w-9gw2 |
+   [CRITICAL] | CC7.2 | Monitoring and Detection |  | critical | trivy-GHSA-6q48-6c7w-9gw2 |
+   [HIGH]     | SI-10 | Information Input Validation | CWE-78 | high | heuristic-3 |
+   [HIGH]     | 6.2.4 | Software Engineering Techniques | CWE-78 | high | heuristic-3 |
+   [HIGH]     | A03:2021 | Injection | CWE-78 | high | heuristic-3 |
+   [HIGH]     | CC6.1 | Logical and Physical Access Controls | CWE-89 | high | heuristic-21 |
+
+🔴 REPO: tidepool-heavy-industries/exomonad
+-------------------------------------------
+   [CRITICAL] | CC7.2 | Monitoring and Detection |  | critical | trivy-CVE-2026-115889 |
+   [HIGH]     | SI-10 | Information Input Validation | CWE-89 | high | heuristic-30 |
+   [HIGH]     | SI-2 | Flaw Remediation |  | high | trivy-CVE-2026-41898 |
+   [HIGH]     | 6.2.4 | Software Engineering Techniques | CWE-89 | high | heuristic-30 |
+   [HIGH]     | 6.3 | Security Vulnerabilities Are Identified and Addressed |  | high | trivy-CVE-2026-41898 |
+   [HIGH]     | A03:2021 | Injection | CWE-89 | high | heuristic-30 |
+   [HIGH]     | CC6.1 | Logical and Physical Access Controls | CWE-89 | high | heuristic-30 |
+
+🔴 REPO: thoughtspot/thoughtspot-agent-skills
+-------------------------------------------
+   [HIGH]     | SI-2 | Flaw Remediation | CWE-95 | high | heuristic-5 |
+   [HIGH]     | 6.3 | Security Vulnerabilities Are Identified and Addressed | CWE-95 | high | heuristic-5 |
+
+🔴 REPO: future-architect/arch-guidelines
+-------------------------------------------
+   [HIGH]     | SI-2 | Flaw Remediation |  | high | workflow-hardening-unpinned-action-.github/workflows/GHPages.yml-deploy-docs-0-11 |
+   [HIGH]     | 6.3 | Security Vulnerabilities Are Identified and Addressed |  | high | workflow-hardening-unpinned-action-.github/workflows/GHPages.yml-deploy-docs-0-11 |
+
+🔴 REPO: flanliulf/build-genui-agent-with-langgraph-and-claudecode
+-------------------------------------------
+   [HIGH]     | SI-2 | Flaw Remediation |  | high | workflow-hardening-unpinned-action-.github/workflows/integration-tests.yml-integration-tests-0-25 |
+   [HIGH]     | 6.3 | Security Vulnerabilities Are Identified and Addressed |  | high | workflow-hardening-unpinned-action-.github/workflows/integration-tests.yml-integration-tests-0-25 |
+
+🔴 REPO: Dowwie/tasker
+-------------------------------------------
+   [HIGH]     | SI-10 | Information Input Validation | CWE-89 | high | heuristic-62 |
+   [HIGH]     | SI-2 | Flaw Remediation |  | high | workflow-hardening-unpinned-action-.github/workflows/release.yaml-build-0-15 |
+   [HIGH]     | 6.2.4 | Software Engineering Techniques | CWE-89 | high | heuristic-62 |
+   [HIGH]     | 6.3 | Security Vulnerabilities Are Identified and Addressed |  | high | workflow-hardening-unpinned-action-.github/workflows/release.yaml-build-0-15 |
+   [HIGH]     | A03:2021 | Injection | CWE-89 | high | heuristic-62 |
+   [HIGH]     | CC6.1 | Logical and Physical Access Controls | CWE-89 | high | heuristic-62 |
+
+🔴 REPO: zabiny/klabis
+-------------------------------------------
+   [HIGH]     | IA-5 | Authenticator Management | CWE-798 | high | heuristic-77 |
+   [HIGH]     | SI-10 | Information Input Validation | CWE-89 | high | heuristic-97 |
+   [HIGH]     | SI-2 | Flaw Remediation |  | high | trivy-CVE-2026-22029 |
+   [HIGH]     | 6.2.4 | Software Engineering Techniques | CWE-89 | high | heuristic-97 |
+   [HIGH]     | 6.3 | Security Vulnerabilities Are Identified and Addressed |  | high | trivy-CVE-2026-22029 |
+   [HIGH]     | 8.6 | Authentication Mechanism Management | CWE-798 | high | heuristic-77 |
+   [HIGH]     | A03:2021 | Injection | CWE-89 | high | heuristic-97 |
+   [HIGH]     | A07:2021 | Identification and Authentication Failures | CWE-798 | high | heuristic-77 |
+   [HIGH]     | CC6.1 | Logical and Physical Access Controls | CWE-798 | high | heuristic-77 |
+
+🔴 REPO: tom-doerr/cc/approver
+-------------------------------------------
+   [HIGH]     | SI-10 | Information Input Validation | CWE-89 | high | heuristic-7 |
+   [HIGH]     | SI-2 | Flaw Remediation | CWE-95 | high | heuristic-5 |
+   [HIGH]     | 6.2.4 | Software Engineering Techniques | CWE-89 | high | heuristic-7 |
+   [HIGH]     | 6.3 | Security Vulnerabilities Are Identified and Addressed | CWE-95 | high | heuristic-5 |
+   [HIGH]     | A03:2021 | Injection | CWE-89 | high | heuristic-7 |
+   [HIGH]     | CC6.1 | Logical and Physical Access Controls | CWE-89 | high | heuristic-7 |
+
+🔴 REPO: shader-slang/slang-rhi
+-------------------------------------------
+   [HIGH]     | SI-10 | Information Input Validation | CWE-78 | high | workflow-hardening-script-injection-.github/workflows/pr-review-fork-bridge.yml-bridge-0-28 |
+   [HIGH]     | SI-2 | Flaw Remediation |  | high | workflow-hardening-unpinned-action-.github/workflows/ci.yml-build-0-72 |
+   [HIGH]     | 6.2.4 | Software Engineering Techniques | CWE-78 | high | workflow-hardening-script-injection-.github/workflows/pr-review-fork-bridge.yml-bridge-0-28 |
+   [HIGH]     | 6.3 | Security Vulnerabilities Are Identified and Addressed |  | high | workflow-hardening-unpinned-action-.github/workflows/ci.yml-build-0-72 |
+   [HIGH]     | A03:2021 | Injection | CWE-78 | high | workflow-hardening-script-injection-.github/workflows/pr-review-fork-bridge.yml-bridge-0-28 |
+
+🔴 REPO: Devaansh07/Stock/Trading/Agent
+-------------------------------------------
+   [HIGH]     | SI-2 | Flaw Remediation | CWE-95 | high | heuristic-1 |
+   [HIGH]     | 6.3 | Security Vulnerabilities Are Identified and Addressed | CWE-95 | high | heuristic-1 |
+
+🔴 REPO: AmyangXYZ/reze-mipo
+-------------------------------------------
+   [CRITICAL] | SI-2 | Flaw Remediation |  | critical | trivy-GHSA-2464-fhr4-w9xw |
+   [CRITICAL] | 6.3 | Security Vulnerabilities Are Identified and Addressed |  | critical | trivy-GHSA-2464-fhr4-w9xw |
+   [CRITICAL] | CC7.2 | Monitoring and Detection |  | critical | trivy-GHSA-2464-fhr4-w9xw |
+
+🔴 REPO: DaltonCalford/ScratchBird-legacy
+-------------------------------------------
+   [HIGH]     | SI-10 | Information Input Validation | CWE-78 | high | heuristic-23 |
+   [HIGH]     | SI-2 | Flaw Remediation |  | high | workflow-hardening-unpinned-action-.github/workflows/cross-os-gate.yml-linux_gcc-0-17 |
+   [HIGH]     | 6.2.4 | Software Engineering Techniques | CWE-78 | high | heuristic-23 |
+   [HIGH]     | 6.3 | Security Vulnerabilities Are Identified and Addressed |  | high | workflow-hardening-unpinned-action-.github/workflows/cross-os-gate.yml-linux_gcc-0-17 |
+   [HIGH]     | A03:2021 | Injection | CWE-78 | high | heuristic-23 |
+   [HIGH]     | CC6.1 | Logical and Physical Access Controls | CWE-89 | high | heuristic-120 |
+
+🔴 REPO: ln2146/EvoCorps
+-------------------------------------------
+   [CRITICAL] | CC7.2 | Monitoring and Detection | CWE-285 | critical | fc134ab1a8407886 |
+   [HIGH]     | IA-2 | Identification and Authentication | CWE-287 | high | f2e8538b279d9f96 |
+   [HIGH]     | IA-5 | Authenticator Management | CWE-798 | high | heuristic-173 |
+   [HIGH]     | SI-10 | Information Input Validation | CWE-78 | high | heuristic-2 |
+   [HIGH]     | SI-2 | Flaw Remediation |  | high | trivy-CVE-2026-101898 |
+   [HIGH]     | 6.2.4 | Software Engineering Techniques | CWE-78 | high | heuristic-2 |
+   [HIGH]     | 6.3 | Security Vulnerabilities Are Identified and Addressed |  | high | trivy-CVE-2026-101898 |
+   [HIGH]     | 8.3 | Strong Authentication for Users and Admins | CWE-287 | high | f2e8538b279d9f96 |
+   [HIGH]     | 8.6 | Authentication Mechanism Management | CWE-798 | high | heuristic-173 |
+   [HIGH]     | A03:2021 | Injection | CWE-78 | high | heuristic-2 |
+   [HIGH]     | A07:2021 | Identification and Authentication Failures | CWE-287 | high | f2e8538b279d9f96 |
+   [HIGH]     | CC6.1 | Logical and Physical Access Controls | CWE-287 | high | f2e8538b279d9f96 |
+
+🔴 REPO: rinadelph/Rapala
+-------------------------------------------
+   [HIGH]     | SI-2 | Flaw Remediation |  | high | trivy-CVE-2026-13149 |
+   [HIGH]     | 6.3 | Security Vulnerabilities Are Identified and Addressed |  | high | trivy-CVE-2026-13149 |
+
+🔴 REPO: DimitriGeelen/agentic-engineering-framework
+-------------------------------------------
+   [HIGH]     | IA-5 | Authenticator Management | CWE-798 | high | heuristic-83 |
+   [HIGH]     | SI-10 | Information Input Validation | CWE-78 | high | heuristic-62 |
+   [HIGH]     | SI-2 | Flaw Remediation |  | high | workflow-hardening-unpinned-action-.github/workflows/test.yml-bats-0-15 |
+   [HIGH]     | 6.2.4 | Software Engineering Techniques | CWE-78 | high | heuristic-62 |
+   [HIGH]     | 6.3 | Security Vulnerabilities Are Identified and Addressed |  | high | workflow-hardening-unpinned-action-.github/workflows/test.yml-bats-0-15 |
+   [HIGH]     | 8.6 | Authentication Mechanism Management | CWE-798 | high | heuristic-83 |
+   [HIGH]     | A03:2021 | Injection | CWE-78 | high | heuristic-62 |
+   [HIGH]     | A07:2021 | Identification and Authentication Failures | CWE-798 | high | heuristic-83 |
+   [HIGH]     | CC6.1 | Logical and Physical Access Controls | CWE-798 | high | heuristic-83 |
+
+🔴 REPO: NovyWave/NovyWave
+-------------------------------------------
+   [CRITICAL] | CC7.2 | Monitoring and Detection |  | critical | trivy-CVE-2026-115889 |
+   [HIGH]     | SI-2 | Flaw Remediation |  | high | trivy-CVE-2026-41898 |
+   [HIGH]     | 6.3 | Security Vulnerabilities Are Identified and Addressed |  | high | trivy-CVE-2026-41898 |
+
+🔴 REPO: VirtoCommerce/ai-tools
+-------------------------------------------
+   [HIGH]     | IA-5 | Authenticator Management | CWE-798 | high | heuristic-52 |
+   [HIGH]     | SI-10 | Information Input Validation | CWE-78 | high | workflow-hardening-script-injection-.github/workflows/full-cycle.yml-sync-and-lifecycle-3-102 |
+   [HIGH]     | SI-2 | Flaw Remediation |  | high | workflow-hardening-unpinned-action-.github/workflows/customer-template.yml-regression-0-130 |
+   [HIGH]     | 6.2.4 | Software Engineering Techniques | CWE-78 | high | workflow-hardening-script-injection-.github/workflows/full-cycle.yml-sync-and-lifecycle-3-102 |
+   [HIGH]     | 6.3 | Security Vulnerabilities Are Identified and Addressed |  | high | workflow-hardening-unpinned-action-.github/workflows/customer-template.yml-regression-0-130 |
+   [HIGH]     | 8.6 | Authentication Mechanism Management | CWE-798 | high | heuristic-52 |
+   [HIGH]     | A03:2021 | Injection | CWE-78 | high | workflow-hardening-script-injection-.github/workflows/full-cycle.yml-sync-and-lifecycle-3-102 |
+   [HIGH]     | A07:2021 | Identification and Authentication Failures | CWE-798 | high | heuristic-52 |
+   [HIGH]     | CC6.1 | Logical and Physical Access Controls | CWE-89 | high | heuristic-34 |
+
+🔴 REPO: STRRL/shell-now
+-------------------------------------------
+   [HIGH]     | SI-2 | Flaw Remediation |  | high | workflow-hardening-unpinned-action-.github/workflows/release.yml-goreleaser-0-21 |
+   [HIGH]     | 6.3 | Security Vulnerabilities Are Identified and Addressed |  | high | workflow-hardening-unpinned-action-.github/workflows/release.yml-goreleaser-0-21 |
+
+🔴 REPO: quantified-uncertainty/roast-my-post
+-------------------------------------------
+   [HIGH]     | IA-5 | Authenticator Management | CWE-798 | high | heuristic-95 |
+   [HIGH]     | SI-2 | Flaw Remediation |  | high | trivy-CVE-2026-116689 |
+   [HIGH]     | 6.3 | Security Vulnerabilities Are Identified and Addressed |  | high | trivy-CVE-2026-116689 |
+   [HIGH]     | 8.6 | Authentication Mechanism Management | CWE-798 | high | heuristic-95 |
+   [HIGH]     | A07:2021 | Identification and Authentication Failures | CWE-798 | high | heuristic-95 |
+   [HIGH]     | CC6.1 | Logical and Physical Access Controls | CWE-798 | high | heuristic-95 |
+
+🔴 REPO: arkanwolfshade/MythosMUD
+-------------------------------------------
+   [CRITICAL] | CC7.2 | Monitoring and Detection | CWE-285 | critical | 1673c83115859ca5 |
+   [HIGH]     | IA-2 | Identification and Authentication | CWE-287 | high | 72044f7ea35ddebb |
+   [HIGH]     | IA-5 | Authenticator Management | CWE-798 | high | heuristic-38 |
+   [HIGH]     | SC-7 | Boundary Protection | CWE-918 | high | afcb6104bc23853b |
+   [HIGH]     | SI-10 | Information Input Validation | CWE-79 | high | heuristic-1 |
+   [HIGH]     | SI-2 | Flaw Remediation | CWE-639 | high | dfec8722312381b0 |
+   [HIGH]     | 6.2.4 | Software Engineering Techniques | CWE-79 | high | heuristic-1 |
+   [HIGH]     | 6.3 | Security Vulnerabilities Are Identified and Addressed | CWE-639 | high | dfec8722312381b0 |
+   [HIGH]     | 8.3 | Strong Authentication for Users and Admins | CWE-287 | high | 72044f7ea35ddebb |
+   [HIGH]     | 8.6 | Authentication Mechanism Management | CWE-798 | high | heuristic-38 |
+   [HIGH]     | A03:2021 | Injection | CWE-79 | high | heuristic-1 |
+   [HIGH]     | A07:2021 | Identification and Authentication Failures | CWE-287 | high | 72044f7ea35ddebb |
+   [HIGH]     | A10:2021 | Server-Side Request Forgery | CWE-918 | high | afcb6104bc23853b |
+   [HIGH]     | CC6.1 | Logical and Physical Access Controls | CWE-287 | high | 72044f7ea35ddebb |
+
+🔴 REPO: jamportz/OpenPBR-viewer
+-------------------------------------------
+   [CRITICAL] | CC7.2 | Monitoring and Detection |  | critical | trivy-CVE-2025-31125 |
+   [HIGH]     | SI-2 | Flaw Remediation |  | high | trivy-CVE-2024-47068 |
+   [HIGH]     | 6.3 | Security Vulnerabilities Are Identified and Addressed |  | high | trivy-CVE-2024-47068 |
+
+🔴 REPO: miskibin/py-draughts
+-------------------------------------------
+   [CRITICAL] | SI-2 | Flaw Remediation |  | critical | trivy-GHSA-6q48-6c7w-9gw2 |
+   [CRITICAL] | 6.3 | Security Vulnerabilities Are Identified and Addressed |  | critical | trivy-GHSA-6q48-6c7w-9gw2 |
+   [CRITICAL] | CC7.2 | Monitoring and Detection |  | critical | trivy-GHSA-6q48-6c7w-9gw2 |
+   [HIGH]     | SI-10 | Information Input Validation | CWE-79 | high | heuristic-87 |
+   [HIGH]     | 6.2.4 | Software Engineering Techniques | CWE-79 | high | heuristic-87 |
+   [HIGH]     | A03:2021 | Injection | CWE-79 | high | heuristic-87 |
+   [HIGH]     | CC6.1 | Logical and Physical Access Controls | CWE-79 | high | heuristic-87 |
+
+🔴 REPO: rlcurrall/aide
+-------------------------------------------
+   [HIGH]     | SI-2 | Flaw Remediation |  | high | workflow-hardening-unpinned-action-.github/workflows/release.yml-build-and-release-0-17 |
+   [HIGH]     | 6.3 | Security Vulnerabilities Are Identified and Addressed |  | high | workflow-hardening-unpinned-action-.github/workflows/release.yml-build-and-release-0-17 |
+
+🔴 REPO: chaojimct/clipboardx
+-------------------------------------------
+   [HIGH]     | SI-2 | Flaw Remediation |  | high | workflow-hardening-unpinned-action-.github/workflows/migration-release.yml-release-0-39 |
+   [HIGH]     | 6.3 | Security Vulnerabilities Are Identified and Addressed |  | high | workflow-hardening-unpinned-action-.github/workflows/migration-release.yml-release-0-39 |
+
+🔴 REPO: eltmon/overdeck
+-------------------------------------------
+   [CRITICAL] | SI-2 | Flaw Remediation |  | critical | trivy-GHSA-cg2g-xh64-v4q7 |
+   [CRITICAL] | 6.3 | Security Vulnerabilities Are Identified and Addressed |  | critical | trivy-GHSA-cg2g-xh64-v4q7 |
+   [CRITICAL] | CC7.2 | Monitoring and Detection |  | critical | trivy-GHSA-cg2g-xh64-v4q7 |
+
+🔴 REPO: ElPuig/EMS
+-------------------------------------------
+   [HIGH]     | SI-10 | Information Input Validation | CWE-78 | high | workflow-hardening-script-injection-.github/workflows/cleanup-issue-branches.yml-cleanup-0-17 |
+   [HIGH]     | SI-2 | Flaw Remediation |  | high | workflow-hardening-unpinned-action-.github/workflows/changelog-clean.yml-authorize-0-52 |
+   [HIGH]     | 6.2.4 | Software Engineering Techniques | CWE-78 | high | workflow-hardening-script-injection-.github/workflows/cleanup-issue-branches.yml-cleanup-0-17 |
+   [HIGH]     | 6.3 | Security Vulnerabilities Are Identified and Addressed |  | high | workflow-hardening-unpinned-action-.github/workflows/changelog-clean.yml-authorize-0-52 |
+   [HIGH]     | A03:2021 | Injection | CWE-78 | high | workflow-hardening-script-injection-.github/workflows/cleanup-issue-branches.yml-cleanup-0-17 |
+
+🔴 REPO: eliottcassidy2000/math
+-------------------------------------------
+   [HIGH]     | SI-10 | Information Input Validation | CWE-89 | high | heuristic-220 |
+   [HIGH]     | SI-2 | Flaw Remediation | CWE-352 | high | nuclei-src-5e123a083b7d1576 |
+   [HIGH]     | 6.2.4 | Software Engineering Techniques | CWE-89 | high | heuristic-220 |
+   [HIGH]     | 6.3 | Security Vulnerabilities Are Identified and Addressed | CWE-352 | high | nuclei-src-5e123a083b7d1576 |
+   [HIGH]     | A03:2021 | Injection | CWE-89 | high | heuristic-220 |
+   [HIGH]     | CC6.1 | Logical and Physical Access Controls | CWE-89 | high | heuristic-220 |
+
+🔴 REPO: ComputerScienceHouse/gallery
+-------------------------------------------
+   [CRITICAL] | CC7.2 | Monitoring and Detection |  | critical | trivy-GHSA-6q48-6c7w-9gw2 |
+   [HIGH]     | SI-10 | Information Input Validation | CWE-89 | high | heuristic-24 |
+   [HIGH]     | SI-2 | Flaw Remediation |  | high | trivy-CVE-2026-44307 |
+   [HIGH]     | 6.2.4 | Software Engineering Techniques | CWE-89 | high | heuristic-24 |
+   [HIGH]     | 6.3 | Security Vulnerabilities Are Identified and Addressed |  | high | trivy-CVE-2026-44307 |
+   [HIGH]     | A03:2021 | Injection | CWE-89 | high | heuristic-24 |
+   [HIGH]     | CC6.1 | Logical and Physical Access Controls | CWE-89 | high | heuristic-24 |
+
+🔴 REPO: Th3X-Zohir/cortex
+-------------------------------------------
+   [HIGH]     | IA-5 | Authenticator Management | CWE-798 | high | heuristic-28 |
+   [HIGH]     | SI-2 | Flaw Remediation | CWE-352 | high | nuclei-src-065b9f5539e08086 |
+   [HIGH]     | 6.3 | Security Vulnerabilities Are Identified and Addressed | CWE-352 | high | nuclei-src-065b9f5539e08086 |
+   [HIGH]     | 8.6 | Authentication Mechanism Management | CWE-798 | high | heuristic-28 |
+   [HIGH]     | A07:2021 | Identification and Authentication Failures | CWE-798 | high | heuristic-28 |
+   [HIGH]     | CC6.1 | Logical and Physical Access Controls | CWE-798 | high | heuristic-28 |
+
+🔴 REPO: rankingenem
+-------------------------------------------
+   [CRITICAL] | CC7.2 | Monitoring and Detection |  | critical | trivy-CVE-2026-31938 |
+   [HIGH]     | SC-7 | Boundary Protection | CWE-918 | high | 8ce55774a8693a3e |
+   [HIGH]     | SI-10 | Information Input Validation | CWE-79 | high | heuristic-34 |
+   [HIGH]     | SI-2 | Flaw Remediation |  | high | trivy-GHSA-mrv2-3pqr-j5jr |
+   [HIGH]     | 6.2.4 | Software Engineering Techniques | CWE-79 | high | heuristic-34 |
+   [HIGH]     | 6.3 | Security Vulnerabilities Are Identified and Addressed |  | high | trivy-GHSA-mrv2-3pqr-j5jr |
+   [HIGH]     | A03:2021 | Injection | CWE-79 | high | heuristic-34 |
+   [HIGH]     | A10:2021 | Server-Side Request Forgery | CWE-918 | high | 8ce55774a8693a3e |
+   [HIGH]     | CC6.1 | Logical and Physical Access Controls | CWE-79 | high | heuristic-34 |
+
+🔴 REPO: nasa-jpl/tasksat
+-------------------------------------------
+   [CRITICAL] | CC7.2 | Monitoring and Detection | CWE-285 | critical | 9653ff4cf12383af |
+   [HIGH]     | SI-10 | Information Input Validation | CWE-78 | high | heuristic-101 |
+   [HIGH]     | SI-2 | Flaw Remediation |  | high | trivy-CVE-2026-111755 |
+   [HIGH]     | 6.2.4 | Software Engineering Techniques | CWE-78 | high | heuristic-101 |
+   [HIGH]     | 6.3 | Security Vulnerabilities Are Identified and Addressed |  | high | trivy-CVE-2026-111755 |
+   [HIGH]     | A03:2021 | Injection | CWE-78 | high | heuristic-101 |
+   [HIGH]     | CC6.1 | Logical and Physical Access Controls | CWE-79 | high | heuristic-102 |
+
+🔴 REPO: workoho/spfx-guest-sponsor-info
+-------------------------------------------
+   [HIGH]     | SI-10 | Information Input Validation | CWE-79 | high | heuristic-17 |
+   [HIGH]     | SI-2 | Flaw Remediation |  | high | trivy-CVE-2026-109461 |
+   [HIGH]     | 6.2.4 | Software Engineering Techniques | CWE-79 | high | heuristic-17 |
+   [HIGH]     | 6.3 | Security Vulnerabilities Are Identified and Addressed |  | high | trivy-CVE-2026-109461 |
+   [HIGH]     | A03:2021 | Injection | CWE-79 | high | heuristic-17 |
+   [HIGH]     | CC6.1 | Logical and Physical Access Controls | CWE-79 | high | heuristic-17 |
+
+🔴 REPO: ComputerScienceHouse/packet
+-------------------------------------------
+   [CRITICAL] | SI-2 | Flaw Remediation |  | critical | trivy-GHSA-6q48-6c7w-9gw2 |
+   [CRITICAL] | 6.3 | Security Vulnerabilities Are Identified and Addressed |  | critical | trivy-GHSA-6q48-6c7w-9gw2 |
+   [CRITICAL] | CC7.2 | Monitoring and Detection |  | critical | trivy-GHSA-6q48-6c7w-9gw2 |
+
+🔴 REPO: AgoraIO-Usecase/AgoraMeeting
+-------------------------------------------
+   [HIGH]     | IA-5 | Authenticator Management | CWE-798 | high | heuristic-7 |
+   [HIGH]     | SI-2 | Flaw Remediation | CWE-95 | high | heuristic-41 |
+   [HIGH]     | 6.3 | Security Vulnerabilities Are Identified and Addressed | CWE-95 | high | heuristic-41 |
+   [HIGH]     | 8.6 | Authentication Mechanism Management | CWE-798 | high | heuristic-7 |
+   [HIGH]     | A07:2021 | Identification and Authentication Failures | CWE-798 | high | heuristic-7 |
+   [HIGH]     | CC6.1 | Logical and Physical Access Controls | CWE-798 | high | heuristic-7 |
+
+🔴 REPO: Delphine-L/claude/global
+-------------------------------------------
+   [HIGH]     | SI-10 | Information Input Validation | CWE-89 | high | heuristic-1 |
+   [HIGH]     | SI-2 | Flaw Remediation | CWE-95 | high | heuristic-16 |
+   [HIGH]     | 6.2.4 | Software Engineering Techniques | CWE-89 | high | heuristic-1 |
+   [HIGH]     | 6.3 | Security Vulnerabilities Are Identified and Addressed | CWE-95 | high | heuristic-16 |
+   [HIGH]     | A03:2021 | Injection | CWE-89 | high | heuristic-1 |
+   [HIGH]     | CC6.1 | Logical and Physical Access Controls | CWE-89 | high | heuristic-1 |
+
+🔴 REPO: hex0xdeadbeef/claude-kit
+-------------------------------------------
+   [HIGH]     | SI-2 | Flaw Remediation |  | high | workflow-hardening-unpinned-action-.github/workflows/release.yml-release-0-17 |
+   [HIGH]     | 6.3 | Security Vulnerabilities Are Identified and Addressed |  | high | workflow-hardening-unpinned-action-.github/workflows/release.yml-release-0-17 |
+
+🔴 REPO: tkoyama010/dotfiles
+-------------------------------------------
+   [HIGH]     | SI-2 | Flaw Remediation |  | high | workflow-hardening-unpinned-action-.github/workflows/ci.yml-build-0-26 |
+   [HIGH]     | 6.3 | Security Vulnerabilities Are Identified and Addressed |  | high | workflow-hardening-unpinned-action-.github/workflows/ci.yml-build-0-26 |
+
+🔴 REPO: koreyba/Claude-Skill-pdf-to-epub
+-------------------------------------------
+   [HIGH]     | SI-2 | Flaw Remediation | CWE-95 | high | heuristic-9 |
+   [HIGH]     | 6.3 | Security Vulnerabilities Are Identified and Addressed | CWE-95 | high | heuristic-9 |
+
+🔴 REPO: IgnacioOQ/multiagentrecommendation
+-------------------------------------------
+   [HIGH]     | SI-10 | Information Input Validation | CWE-89 | high | heuristic-20 |
+   [HIGH]     | SI-2 | Flaw Remediation | CWE-95 | high | heuristic-7 |
+   [HIGH]     | 6.2.4 | Software Engineering Techniques | CWE-89 | high | heuristic-20 |
+   [HIGH]     | 6.3 | Security Vulnerabilities Are Identified and Addressed | CWE-95 | high | heuristic-7 |
+   [HIGH]     | A03:2021 | Injection | CWE-89 | high | heuristic-20 |
+   [HIGH]     | CC6.1 | Logical and Physical Access Controls | CWE-89 | high | heuristic-20 |
+
+🔴 REPO: kbwo/ccmanager
+-------------------------------------------
+   [HIGH]     | SI-10 | Information Input Validation | CWE-89 | high | heuristic-8 |
+   [HIGH]     | SI-2 | Flaw Remediation |  | high | workflow-hardening-unpinned-action-.github/workflows/ci.yml-test-0-16 |
+   [HIGH]     | 6.2.4 | Software Engineering Techniques | CWE-89 | high | heuristic-8 |
+   [HIGH]     | 6.3 | Security Vulnerabilities Are Identified and Addressed |  | high | workflow-hardening-unpinned-action-.github/workflows/ci.yml-test-0-16 |
+   [HIGH]     | A03:2021 | Injection | CWE-89 | high | heuristic-8 |
+   [HIGH]     | CC6.1 | Logical and Physical Access Controls | CWE-89 | high | heuristic-8 |
+
+🔴 REPO: OmerZeyveli/kinglet-unity
+-------------------------------------------
+   [HIGH]     | SI-10 | Information Input Validation | CWE-89 | high | heuristic-34 |
+   [HIGH]     | SI-2 | Flaw Remediation |  | high | trivy-CVE-2026-69247 |
+   [HIGH]     | 6.2.4 | Software Engineering Techniques | CWE-89 | high | heuristic-34 |
+   [HIGH]     | 6.3 | Security Vulnerabilities Are Identified and Addressed |  | high | trivy-CVE-2026-69247 |
+   [HIGH]     | A03:2021 | Injection | CWE-89 | high | heuristic-34 |
+   [HIGH]     | CC6.1 | Logical and Physical Access Controls | CWE-89 | high | heuristic-34 |
+
+🔴 REPO: typingincolor/bujo
+-------------------------------------------
+   [HIGH]     | SI-10 | Information Input Validation | CWE-78 | high | workflow-hardening-script-injection-.github/workflows/coverage-check.yml-coverage-8-29 |
+   [HIGH]     | SI-2 | Flaw Remediation |  | high | workflow-hardening-unpinned-action-.github/workflows/auto-adr.yml-generate-adr-0-21 |
+   [HIGH]     | 6.2.4 | Software Engineering Techniques | CWE-78 | high | workflow-hardening-script-injection-.github/workflows/coverage-check.yml-coverage-8-29 |
+   [HIGH]     | 6.3 | Security Vulnerabilities Are Identified and Addressed |  | high | workflow-hardening-unpinned-action-.github/workflows/auto-adr.yml-generate-adr-0-21 |
+   [HIGH]     | A03:2021 | Injection | CWE-78 | high | workflow-hardening-script-injection-.github/workflows/coverage-check.yml-coverage-8-29 |
+   [HIGH]     | CC6.1 | Logical and Physical Access Controls | CWE-89 | high | heuristic-19 |
+
+🔴 REPO: bossjones/zsh-dotfiles
+-------------------------------------------
+   [CRITICAL] | CC7.2 | Monitoring and Detection |  | critical | trivy-GHSA-6q48-6c7w-9gw2 |
+   [HIGH]     | SI-10 | Information Input Validation | CWE-78 | high | heuristic-17 |
+   [HIGH]     | SI-2 | Flaw Remediation |  | high | trivy-CVE-2026-123817 |
+   [HIGH]     | 6.2.4 | Software Engineering Techniques | CWE-78 | high | heuristic-17 |
+   [HIGH]     | 6.3 | Security Vulnerabilities Are Identified and Addressed |  | high | trivy-CVE-2026-123817 |
+   [HIGH]     | A03:2021 | Injection | CWE-78 | high | heuristic-17 |
+
+🔴 REPO: pjastam/ResearchVault
+-------------------------------------------
+   [HIGH]     | SI-2 | Flaw Remediation |  | high | workflow-hardening-unpinned-action-.github/workflows/mdbook.yml-deploy-0-18 |
+   [HIGH]     | 6.3 | Security Vulnerabilities Are Identified and Addressed |  | high | workflow-hardening-unpinned-action-.github/workflows/mdbook.yml-deploy-0-18 |
+
+🔴 REPO: joelbcastillo/dotfiles
+-------------------------------------------
+   [HIGH]     | SI-2 | Flaw Remediation |  | high | trivy-CVE-2026-114142 |
+   [HIGH]     | 6.3 | Security Vulnerabilities Are Identified and Addressed |  | high | trivy-CVE-2026-114142 |
+
+🔴 REPO: achimala/farfield
+-------------------------------------------
+   [HIGH]     | SI-10 | Information Input Validation | CWE-79 | high | heuristic-1 |
+   [HIGH]     | SI-2 | Flaw Remediation |  | high | workflow-hardening-unpinned-action-.github/workflows/deploy-cloudflare-pages.yml-deploy-0-27 |
+   [HIGH]     | 6.2.4 | Software Engineering Techniques | CWE-79 | high | heuristic-1 |
+   [HIGH]     | 6.3 | Security Vulnerabilities Are Identified and Addressed |  | high | workflow-hardening-unpinned-action-.github/workflows/deploy-cloudflare-pages.yml-deploy-0-27 |
+   [HIGH]     | A03:2021 | Injection | CWE-79 | high | heuristic-1 |
+   [HIGH]     | CC6.1 | Logical and Physical Access Controls | CWE-79 | high | heuristic-1 |
+
+🔴 REPO: jdubray/puffin
+-------------------------------------------
+   [HIGH]     | SI-10 | Information Input Validation | CWE-79 | high | heuristic-30 |
+   [HIGH]     | SI-2 | Flaw Remediation |  | high | trivy-CVE-2026-13149 |
+   [HIGH]     | 6.2.4 | Software Engineering Techniques | CWE-79 | high | heuristic-30 |
+   [HIGH]     | 6.3 | Security Vulnerabilities Are Identified and Addressed |  | high | trivy-CVE-2026-13149 |
+   [HIGH]     | A03:2021 | Injection | CWE-79 | high | heuristic-30 |
+   [HIGH]     | CC6.1 | Logical and Physical Access Controls | CWE-79 | high | heuristic-30 |
+
+🔴 REPO: CesarBallardini/ansible-devops-workstation
+-------------------------------------------
+   [HIGH]     | SI-2 | Flaw Remediation |  | high | workflow-hardening-unpinned-action-.github/workflows/ci.yml-test-0-26 |
+   [HIGH]     | 6.3 | Security Vulnerabilities Are Identified and Addressed |  | high | workflow-hardening-unpinned-action-.github/workflows/ci.yml-test-0-26 |
+
+🔴 REPO: EyeSeeTea/d2-autogen-forms
+-------------------------------------------
+   [HIGH]     | SI-10 | Information Input Validation | CWE-89 | high | heuristic-18 |
+   [HIGH]     | SI-2 | Flaw Remediation |  | high | trivy-CVE-2026-101898 |
+   [HIGH]     | 6.2.4 | Software Engineering Techniques | CWE-89 | high | heuristic-18 |
+   [HIGH]     | 6.3 | Security Vulnerabilities Are Identified and Addressed |  | high | trivy-CVE-2026-101898 |
+   [HIGH]     | A03:2021 | Injection | CWE-89 | high | heuristic-18 |
+   [HIGH]     | CC6.1 | Logical and Physical Access Controls | CWE-89 | high | heuristic-18 |
+
+🔴 REPO: snikket-im/snikket-web-portal
+-------------------------------------------
+   [HIGH]     | IA-5 | Authenticator Management | CWE-798 | high | heuristic-14 |
+   [HIGH]     | SI-10 | Information Input Validation | CWE-79 | high | heuristic-16 |
+   [HIGH]     | SI-2 | Flaw Remediation |  | high | workflow-hardening-unpinned-action-.github/workflows/main.yaml-mypy-0-21 |
+   [HIGH]     | 6.2.4 | Software Engineering Techniques | CWE-79 | high | heuristic-16 |
+   [HIGH]     | 6.3 | Security Vulnerabilities Are Identified and Addressed |  | high | workflow-hardening-unpinned-action-.github/workflows/main.yaml-mypy-0-21 |
+   [HIGH]     | 8.6 | Authentication Mechanism Management | CWE-798 | high | heuristic-14 |
+   [HIGH]     | A03:2021 | Injection | CWE-79 | high | heuristic-16 |
+   [HIGH]     | A07:2021 | Identification and Authentication Failures | CWE-798 | high | heuristic-14 |
+   [HIGH]     | CC6.1 | Logical and Physical Access Controls | CWE-798 | high | heuristic-14 |
+
+🔴 REPO: HsuanYuLee/polaris
+-------------------------------------------
+   [CRITICAL] | CC7.2 | Monitoring and Detection |  | critical | trivy-GHSA-26w7-cxv4-gfx2 |
+   [HIGH]     | SI-2 | Flaw Remediation |  | high | trivy-CVE-2026-50146 |
+   [HIGH]     | 6.3 | Security Vulnerabilities Are Identified and Addressed |  | high | trivy-CVE-2026-50146 |
+
+🔴 REPO: EmergenceAI/EM-AISoftwareFactory
+-------------------------------------------
+   [HIGH]     | SI-2 | Flaw Remediation | CWE-639 | high | 95a14ad2307f779f |
+   [HIGH]     | 6.3 | Security Vulnerabilities Are Identified and Addressed | CWE-639 | high | 95a14ad2307f779f |
+
+🔴 REPO: mmp/squall
+-------------------------------------------
+   [HIGH]     | SI-2 | Flaw Remediation |  | high | workflow-hardening-unpinned-action-.github/workflows/ci.yml-test-0-19 |
+   [HIGH]     | 6.3 | Security Vulnerabilities Are Identified and Addressed |  | high | workflow-hardening-unpinned-action-.github/workflows/ci.yml-test-0-19 |
+
+🔴 REPO: junior-rahman/kalshi-trading-team
+-------------------------------------------
+   [CRITICAL] | CC7.2 | Monitoring and Detection |  | critical | trivy-CVE-2026-4599 |
+   [HIGH]     | SI-10 | Information Input Validation | CWE-78 | high | heuristic-15 |
+   [HIGH]     | SI-2 | Flaw Remediation |  | high | trivy-CVE-2026-123817 |
+   [HIGH]     | 6.2.4 | Software Engineering Techniques | CWE-78 | high | heuristic-15 |
+   [HIGH]     | 6.3 | Security Vulnerabilities Are Identified and Addressed |  | high | trivy-CVE-2026-123817 |
+   [HIGH]     | A03:2021 | Injection | CWE-78 | high | heuristic-15 |
+
+🔴 REPO: XGrowthLab/xhub
+-------------------------------------------
+   [HIGH]     | IA-5 | Authenticator Management | CWE-798 | high | heuristic-36 |
+   [HIGH]     | SI-10 | Information Input Validation | CWE-78 | high | workflow-hardening-script-injection-.github/workflows/quality.yml-go-3-35 |
+   [HIGH]     | SI-2 | Flaw Remediation |  | high | workflow-hardening-unpinned-action-.github/workflows/quality.yml-go-0-24 |
+   [HIGH]     | 6.2.4 | Software Engineering Techniques | CWE-78 | high | workflow-hardening-script-injection-.github/workflows/quality.yml-go-3-35 |
+   [HIGH]     | 6.3 | Security Vulnerabilities Are Identified and Addressed |  | high | workflow-hardening-unpinned-action-.github/workflows/quality.yml-go-0-24 |
+   [HIGH]     | 8.6 | Authentication Mechanism Management | CWE-798 | high | heuristic-36 |
+   [HIGH]     | A03:2021 | Injection | CWE-78 | high | workflow-hardening-script-injection-.github/workflows/quality.yml-go-3-35 |
+   [HIGH]     | A07:2021 | Identification and Authentication Failures | CWE-798 | high | heuristic-36 |
+   [HIGH]     | CC6.1 | Logical and Physical Access Controls | CWE-89 | high | heuristic-30 |
+
+🔴 REPO: orangekame3/oqtopus-experiments
+-------------------------------------------
+   [CRITICAL] | SI-2 | Flaw Remediation |  | critical | trivy-GHSA-6q48-6c7w-9gw2 |
+   [CRITICAL] | 6.3 | Security Vulnerabilities Are Identified and Addressed |  | critical | trivy-GHSA-6q48-6c7w-9gw2 |
+   [CRITICAL] | CC7.2 | Monitoring and Detection |  | critical | trivy-GHSA-6q48-6c7w-9gw2 |
+
+🔴 REPO: miles990/multi-agent-workflow
+-------------------------------------------
+   [HIGH]     | SI-10 | Information Input Validation | CWE-89 | high | heuristic-5 |
+   [HIGH]     | 6.2.4 | Software Engineering Techniques | CWE-89 | high | heuristic-5 |
+   [HIGH]     | A03:2021 | Injection | CWE-89 | high | heuristic-5 |
+   [HIGH]     | CC6.1 | Logical and Physical Access Controls | CWE-89 | high | heuristic-5 |
+
+🔴 REPO: tommasobbianchi/OrcaSlicer-Model-Search-Plugin
+-------------------------------------------
+   [HIGH]     | IA-5 | Authenticator Management | CWE-798 | high | heuristic-10 |
+   [HIGH]     | SI-10 | Information Input Validation | CWE-79 | high | heuristic-2 |
+   [HIGH]     | SI-2 | Flaw Remediation |  | high | workflow-hardening-unpinned-action-.github/workflows/publish-orcacloud.yml-publish-0-19 |
+   [HIGH]     | 6.2.4 | Software Engineering Techniques | CWE-79 | high | heuristic-2 |
+   [HIGH]     | 6.3 | Security Vulnerabilities Are Identified and Addressed |  | high | workflow-hardening-unpinned-action-.github/workflows/publish-orcacloud.yml-publish-0-19 |
+   [HIGH]     | 8.6 | Authentication Mechanism Management | CWE-798 | high | heuristic-10 |
+   [HIGH]     | A03:2021 | Injection | CWE-79 | high | heuristic-2 |
+   [HIGH]     | A07:2021 | Identification and Authentication Failures | CWE-798 | high | heuristic-10 |
+   [HIGH]     | CC6.1 | Logical and Physical Access Controls | CWE-79 | high | heuristic-2 |
+
+🔴 REPO: themegrill/colormag
+-------------------------------------------
+   [HIGH]     | SI-10 | Information Input Validation | CWE-79 | high | heuristic-9 |
+   [HIGH]     | SI-2 | Flaw Remediation |  | high | trivy-CVE-2026-13149 |
+   [HIGH]     | 6.2.4 | Software Engineering Techniques | CWE-79 | high | heuristic-9 |
+   [HIGH]     | 6.3 | Security Vulnerabilities Are Identified and Addressed |  | high | trivy-CVE-2026-13149 |
+   [HIGH]     | A03:2021 | Injection | CWE-79 | high | heuristic-9 |
+   [HIGH]     | CC6.1 | Logical and Physical Access Controls | CWE-79 | high | heuristic-9 |
+
+🔴 REPO: dderyldowney/todowrite
+-------------------------------------------
+   [CRITICAL] | SI-2 | Flaw Remediation |  | critical | trivy-GHSA-6q48-6c7w-9gw2 |
+   [CRITICAL] | 6.3 | Security Vulnerabilities Are Identified and Addressed |  | critical | trivy-GHSA-6q48-6c7w-9gw2 |
+   [CRITICAL] | CC7.2 | Monitoring and Detection |  | critical | trivy-GHSA-6q48-6c7w-9gw2 |
+   [HIGH]     | SI-10 | Information Input Validation | CWE-78 | high | heuristic-15 |
+   [HIGH]     | 6.2.4 | Software Engineering Techniques | CWE-78 | high | heuristic-15 |
+   [HIGH]     | A03:2021 | Injection | CWE-78 | high | heuristic-15 |
+

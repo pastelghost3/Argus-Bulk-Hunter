@@ -14,3 +14,8 @@ findings/
 *.db-wal
 trufflehog.json
 gitleaks*.json
+hunter.py.bak*
+test_verify.py
+.scanned_repos.json
+.search_state.json
+all_findings.csv

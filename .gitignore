@@ -19,3 +19,9 @@ test_verify.py
 .scanned_repos.json
 .search_state.json
 all_findings.csv
+*.json
+*.txt
+*.csv
+*.bak*
+findings/
+.argus/

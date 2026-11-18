@@ -1,0 +1,283 @@
+import os
+import sys
+import subprocess
+import requests
+import time
+import json
+import shutil
+from pathlib import Path
+import argparse
+from datetime import datetime, timedelta
+
+# Configuration
+GITHUB_TOKEN = os.getenv("GITHUB_TOKEN")
+BASE_DIR = Path(__file__).parent.resolve()
+ARGUS_PATH = BASE_DIR / "argus-core"
+RESULTS_DIR = BASE_DIR / "findings"
+TARGETS_FILE = BASE_DIR / "targets.txt"
+TRUFFLEHOG_PATH = "/usr/local/bin/trufflehog" # Adjust if installed elsewhere
+
+def search_github(query, per_page=30, max_pages=3):
+    headers = {"Authorization": f"token {GITHUB_TOKEN}", "Accept": "application/vnd.github.v3+json"}
+    all_items = []
+    for page in range(1, max_pages + 1):
+        url = f"https://api.github.com/search/code?q={query}&per_page={per_page}&page={page}&sort=updated&order=desc"
+        print(f"🔍 Global Hunt: Searching page {page} for '{query}'...")
+        try:
+            response = requests.get(url, headers=headers)
+            data = response.json()
+            items = data.get('items', [])
+            if not items: break 
+            all_items.extend(items)
+            time.sleep(2) 
+        except Exception as e:
+            print(f"❌ API Error on page {page}: {e}")
+            break
+    return all_items
+
+def run_trufflehog_scan(target_dir):
+    """Runs TruffleHog and returns a list of verified/high-confidence findings."""
+    if not os.path.exists(TRUFFLEHOG_PATH):
+        print("   ⚠️ TruffleHog not found at expected path. Skipping.")
+        return []
+
+    report_path = target_dir / "trufflehog_results.jsonl"
+    cmd = [
+        TRUFFLEHOG_PATH, "filesystem", str(target_dir),
+        "--json", "--no-update", "--fail"
+    ]
+    
+    findings = []
+    try:
+        with open(report_path, 'w') as f:
+            subprocess.run(cmd, stdout=f, stderr=subprocess.DEVNULL, timeout=300)
+        
+        # Parse JSONL
+        if report_path.exists():
+            with open(report_path, 'r') as f:
+                for line in f:
+                    if line.strip():
+                        try:
+                            data = json.loads(line)
+                            # Filter for high-value secrets (exclude common test mocks if desired)
+                            if data.get('Raw'):
+                                findings.append({
+                                    "type": data.get('DetectorName', 'Unknown'),
+                                    "secret": data.get('Raw', '')[:50] + "...",
+                                    "file": data.get('SourceMetadata', {}).get('Data', {}).get('Filesystem', {}).get('file', 'N/A'),
+                                    "verified": data.get('Verified', False)
+                                })
+                        except json.JSONDecodeError:
+                            continue
+    except subprocess.TimeoutExpired:
+        print("   ⚠️ TruffleHog scan timed out.")
+    except Exception as e:
+        print(f"   ⚠️ TruffleHog error: {e}")
+        
+    return findings
+
+
+MANIFEST_PATH = BASE_DIR / ".scanned_repos.json"
+
+def _load_manifest():
+    if not MANIFEST_PATH.exists():
+        return {}
+    try:
+        return json.loads(MANIFEST_PATH.read_text())
+    except Exception:
+        return {}
+
+def _save_manifest(m):
+    MANIFEST_PATH.write_text(json.dumps(m, indent=2, sort_keys=True))
+
+def should_scan(repo_name, max_age_days=30, manifest=None):
+    if manifest is None:
+        manifest = _load_manifest()
+    entry = manifest.get(repo_name)
+    if not entry:
+        return True, "never scanned"
+    try:
+        last = datetime.fromisoformat(entry["last_scan"])
+        age = (datetime.now() - last).days
+    except Exception:
+        return True, "manifest unreadable"
+    if age >= max_age_days:
+        return True, "stale " + str(age) + "d"
+    return False, "fresh " + str(age) + "d"
+
+def mark_scanned(repo_name):
+    m = _load_manifest()
+    m[repo_name] = {"last_scan": datetime.now().isoformat()}
+    _save_manifest(m)
+
+def clone_and_scan(repo_url, repo_name, dry_run=False, max_age_days=30, manifest=None):
+    target_dir = RESULTS_DIR / repo_name.replace("/", "_")
+    analyzer = ARGUS_PATH / "scripts" / "hybrid_analyzer.py"
+
+    ok, reason = should_scan(repo_name, max_age_days=max_age_days, manifest=manifest)
+    if not ok:
+        print("   skip " + repo_name + ": " + reason)
+        return
+    if dry_run:
+        print("   [dry-run] would scan " + repo_name + " (" + reason + ")")
+        return
+
+    # 1. Clone if needed
+    if not target_dir.exists():
+        print(f"📥 Cloning {repo_name}...")
+        try:
+            subprocess.run(["git", "clone", "--depth", "1", repo_url, str(target_dir)], 
+                           capture_output=True, check=True, timeout=60)
+        except subprocess.CalledProcessError:
+            print(f"❌ Failed to clone {repo_name}")
+            return
+
+    print(f"🚀 Running Enhanced Secret Hunt on {repo_name}...")
+    
+    # 2. Run Aggressive Gitleaks with Custom Config
+    gitleaks_report = target_dir / "aggressive-gitleaks.json"
+    gitleaks_cmd = [
+        "gitleaks", "detect", 
+        "--source", str(target_dir),
+        "--report-format", "json",
+        "--report-path", str(gitleaks_report),
+        "--config", "aggressive-gitleaks.toml", # Point to our new file
+        "--no-banner"
+    ]
+    try:
+        res = subprocess.run(gitleaks_cmd, capture_output=True, text=True)
+        if res.returncode == 0:
+            print("   gitleaks: clean")
+        elif res.returncode == 1:
+            print("   gitleaks: findings present")
+        else:
+            print("   gitleaks failed exit=" + str(res.returncode))
+    except Exception as e:
+        print("   gitleaks error: " + str(e))
+
+    # 3. Run TruffleHog (Great for base64 and history)
+    trufflehog_report = target_dir / "trufflehog.json"
+    trufflehog_cmd = [
+        "trufflehog", "filesystem", str(target_dir),
+        "--json",
+        "--fail",
+        "--no-update"
+    ]
+    try:
+        # Note: TruffleHog outputs to stdout, so we redirect to file
+        with open(trufflehog_report, 'w') as f:
+            subprocess.run(trufflehog_cmd, stdout=f, stderr=subprocess.DEVNULL)
+        print(f"   🕵️ TruffleHog complete: {trufflehog_report}")
+    except Exception as e:
+        print(f"   ⚠️ TruffleHog error: {e}")
+
+    # 4. Run Full Argus Pipeline
+    cmd = [
+        sys.executable, str(analyzer), str(target_dir),
+        "--no-enable-ai-enrichment",      
+        "--no-enable-multi-agent",        
+        "--enable-gitleaks",              
+        "--enable-semgrep",               
+        "--enable-trivy",                 
+        "--enable-checkov",               
+        "--enable-agent-config"
+    ]
+    
+    try:
+        result = subprocess.run(cmd, text=True, timeout=600) 
+        
+        # CLEANUP: Delete the .git folder to save space
+        git_folder = target_dir / ".git"
+        if git_folder.exists():
+            import shutil
+            shutil.rmtree(git_folder)
+            print(f"   🧹 Cleaned .git folder for {repo_name}")
+
+        argus_folder = target_dir / ".argus"
+        if argus_folder.exists():
+            print(f"   ✅ Argus Scan data saved for {repo_name}")
+        else:
+            print(f"   ⚠️ Argus finished but no data folder found for {repo_name}")
+        mark_scanned(repo_name)
+    except subprocess.TimeoutExpired:
+        print(f"   ❌ Argus Scan timed out for {repo_name}")
+    except Exception as e:
+        print(f"   ❌ Argus Error: {e}")
+
+def process_targets(dry_run=False, max_new=10, max_age_days=30):
+    if not TARGETS_FILE.exists():
+        return 0
+    with open(TARGETS_FILE, 'r') as f:
+        targets = [line.strip() for line in f if line.strip()]
+    planned = 0
+    for target in targets:
+        if not target.startswith("http"):
+            continue
+        parts = target.rstrip("/").replace(".git", "").split("/")
+        if len(parts) < 2:
+            continue
+        repo_name = parts[-2] + "/" + parts[-1]
+        clone_and_scan(target, repo_name, dry_run=dry_run, max_age_days=max_age_days)
+        planned += 1
+        if planned >= max_new:
+            print("   [cap] reached --max-new " + str(max_new) + " for targets.txt")
+            break
+    return planned
+
+def main():
+    parser = argparse.ArgumentParser(description="Argus Bulk Hunter")
+    parser.add_argument("--max-new", type=int, default=10)
+    parser.add_argument("--max-age-days", type=int, default=30)
+    parser.add_argument("--only-new", action="store_true")
+    parser.add_argument("--no-discovery", action="store_true")
+    parser.add_argument("--dry-run", action="store_true")
+    args = parser.parse_args()
+
+    if not GITHUB_TOKEN:
+        print("Please set GITHUB_TOKEN environment variable.")
+        return
+
+    RESULTS_DIR.mkdir(exist_ok=True)
+    mode = " [DRY RUN]" if args.dry_run else ""
+    print("Starting Argus Bulk Hunter v2.0 (Pro Mode)" + mode + "...")
+
+    manifest = _load_manifest()
+    print("[manifest] " + str(len(manifest)) + " repos tracked")
+
+    total = 0
+    if not args.only_new:
+        total += process_targets(dry_run=args.dry_run, max_new=args.max_new,
+                                 max_age_days=args.max_age_days)
+
+    if not args.no_discovery:
+        week_ago = (datetime.now() - timedelta(days=7)).strftime("%Y-%m-%d")
+        search_queries = [
+            "filename:settings.local.json path:.claude pushed:>" + week_ago,
+            "filename:.env language:python pushed:>" + week_ago,
+            "filename:config.js language:javascript pushed:>" + week_ago,
+        ]
+        print("[discovery] filtered to pushed:>" + week_ago)
+
+        processed = set()
+        for query in search_queries:
+            items = search_github(query, max_pages=3)
+            for item in items:
+                repo_name = item["repository"]["full_name"]
+                if repo_name in processed:
+                    continue
+                processed.add(repo_name)
+                ok, reason = should_scan(repo_name, max_age_days=args.max_age_days, manifest=manifest)
+                if not ok:
+                    continue
+                if total >= args.max_new:
+                    print("[cap] reached --max-new " + str(args.max_new) + ", stopping discovery")
+                    break
+                repo_url = item["repository"]["html_url"] + ".git"
+                clone_and_scan(repo_url, repo_name, dry_run=args.dry_run,
+                               max_age_days=args.max_age_days, manifest=manifest)
+                total += 1
+
+    print("[done] processed " + str(total) + " repos")
+
+if __name__ == "__main__":
+    main()

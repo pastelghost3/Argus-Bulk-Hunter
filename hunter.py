@@ -1,4 +1,5 @@
 import os
+import logging
 import sys
 import subprocess
 import requests
@@ -6,6 +7,9 @@ import time
 import json
 import shutil
 from pathlib import Path
+import argparse
+from datetime import datetime, timedelta
+logger = logging.getLogger(__name__)
 
 # Configuration
 GITHUB_TOKEN = os.getenv("GITHUB_TOKEN")
@@ -74,21 +78,71 @@ def run_trufflehog_scan(target_dir):
         
     return findings
 
-def clone_and_scan(repo_url, repo_name):
+
+MANIFEST_PATH = BASE_DIR / ".scanned_repos.json"
+
+def _load_manifest():
+    if not MANIFEST_PATH.exists():
+        return {}
+    try:
+        return json.loads(MANIFEST_PATH.read_text())
+    except Exception:
+        return {}
+
+def _save_manifest(m):
+    MANIFEST_PATH.write_text(json.dumps(m, indent=2, sort_keys=True))
+
+def should_scan(repo_name, max_age_days=30, manifest=None):
+    if manifest is None:
+        manifest = _load_manifest()
+    entry = manifest.get(repo_name)
+    if not entry:
+        return True, "never scanned"
+    try:
+        last = datetime.fromisoformat(entry["last_scan"])
+        age = (datetime.now() - last).days
+    except Exception:
+        return True, "manifest unreadable"
+    if age >= max_age_days:
+        return True, "stale " + str(age) + "d"
+    return False, "fresh " + str(age) + "d"
+
+def mark_scanned(repo_name):
+    m = _load_manifest()
+    m[repo_name] = {"last_scan": datetime.now().isoformat()}
+    _save_manifest(m)
+
+def clone_and_scan(repo_url, repo_name, dry_run=False, max_age_days=30, manifest=None):
     target_dir = RESULTS_DIR / repo_name.replace("/", "_")
     analyzer = ARGUS_PATH / "scripts" / "hybrid_analyzer.py"
-    
-    # 1. Clone if needed
-    if not target_dir.exists():
-        print(f"📥 Cloning {repo_name}...")
-        try:
-            subprocess.run(["git", "clone", "--depth", "1", repo_url, str(target_dir)], 
-                           capture_output=True, check=True, timeout=60)
-        except subprocess.CalledProcessError:
-            print(f"❌ Failed to clone {repo_name}")
-            return
 
-    print(f"🚀 Running Enhanced Secret Hunt on {repo_name}...")
+    ok, reason = should_scan(repo_name, max_age_days=max_age_days, manifest=manifest)
+    if not ok:
+        print("   skip " + repo_name + ": " + reason)
+        return
+    if dry_run:
+        print("   [dry-run] would scan " + repo_name + " (" + reason + ")")
+        return
+
+    # 1. Clone if needed
+    max_retries = 3
+    for attempt in range(max_retries):
+        try:
+            subprocess.run(
+                ["git", "clone", "--depth", "1", repo_url, str(target_dir)], 
+                capture_output=True, 
+                check=True, 
+                timeout=120  # Increased to 2 minutes
+            )
+            break # Success, exit loop
+        except subprocess.TimeoutExpired:
+            print(f"   ⚠️ Clone timed out (attempt {attempt + 1}/{max_retries}). Retrying...")
+            if attempt == max_retries - 1:
+                print(f"   ❌ Failed to clone {repo_name} after {max_retries} attempts.")
+                return
+        except subprocess.CalledProcessError as e:
+            print(f"   ❌ Git error: {e.stderr.decode() if e.stderr else 'Unknown error'}")
+            return
     
     # 2. Run Aggressive Gitleaks with Custom Config
     gitleaks_report = target_dir / "aggressive-gitleaks.json"
@@ -101,10 +155,15 @@ def clone_and_scan(repo_url, repo_name):
         "--no-banner"
     ]
     try:
-        subprocess.run(gitleaks_cmd, check=True, capture_output=True)
-        print(f"   🔍 Aggressive Gitleaks complete: {gitleaks_report}")
-    except subprocess.CalledProcessError:
-        print(f"   ⚠️ Gitleaks found issues or failed.")
+        res = subprocess.run(gitleaks_cmd, capture_output=True, text=True)
+        if res.returncode == 0:
+            print("   gitleaks: clean")
+        elif res.returncode == 1:
+            print("   gitleaks: findings present")
+        else:
+            print("   gitleaks failed exit=" + str(res.returncode))
+    except Exception as e:
+        print("   gitleaks error: " + str(e))
 
     # 3. Run TruffleHog (Great for base64 and history)
     trufflehog_report = target_dir / "trufflehog.json"
@@ -143,50 +202,156 @@ def clone_and_scan(repo_url, repo_name):
             import shutil
             shutil.rmtree(git_folder)
             print(f"   🧹 Cleaned .git folder for {repo_name}")
-
         argus_folder = target_dir / ".argus"
         if argus_folder.exists():
             print(f"   ✅ Argus Scan data saved for {repo_name}")
+            
+            # 4. Verify High-Value Secrets
+            try:
+                from scanners.verifier import SecretVerifier
+                verifier = SecretVerifier()
+                
+                gitleaks_report = target_dir / "aggressive-gitleaks.json"
+                if gitleaks_report.exists():
+                    with open(gitleaks_report, 'r') as f:
+                        findings = json.load(f)
+                    
+                    active_secrets = 0
+                    for finding in findings:
+                        secret = finding.get('Secret', '')
+                        context = finding.get('File', '')
+                        
+                        # Run verification
+                        verification = verifier.identify_and_verify(secret, context)
+                        
+                        # Update the finding with verification status
+                        finding['verification_status'] = verification.get('status', 'UNKNOWN')
+                        finding['verification_type'] = verification.get('type', 'UNKNOWN')
+                        
+                        if verification['status'] == 'ACTIVE':
+                            active_secrets += 1
+                            logger.warning(f"   🚨 VERIFIED ACTIVE SECRET: {verification.get('details', '')} in {context}")
+
+                    if active_secrets > 0:
+                        print(f"   🔥 Found {active_secrets} VERIFIED ACTIVE secrets!")
+                    else:
+                        print(f"   ℹ️  No verified active secrets found in this batch.")
+                        
+                    # Save the updated findings back to the report
+                    with open(gitleaks_report, 'w') as f:
+                        json.dump(findings, f, indent=2)
+                        
+            except ImportError:
+                print("   ⚠️ Verifier module not found. Skipping verification.")
+            except Exception as e:
+                print(f"   ⚠️ Verification error: {e}")
+
         else:
             print(f"   ⚠️ Argus finished but no data folder found for {repo_name}")
+        
+        mark_scanned(repo_name)
     except subprocess.TimeoutExpired:
         print(f"   ❌ Argus Scan timed out for {repo_name}")
     except Exception as e:
         print(f"   ❌ Argus Error: {e}")
 
-def process_targets():
-    if not TARGETS_FILE.exists(): return
+def process_targets(dry_run=False, max_new=10, max_age_days=30):
+    if not TARGETS_FILE.exists():
+        return 0
     with open(TARGETS_FILE, 'r') as f:
         targets = [line.strip() for line in f if line.strip()]
+    planned = 0
     for target in targets:
-        if target.startswith("http"):
-            repo_name = target.split('/')[-1].replace('.git', '')
-            clone_and_scan(target, repo_name)
+        if not target.startswith("http"):
+            continue
+        parts = target.rstrip("/").replace(".git", "").split("/")
+        if len(parts) < 2:
+            continue
+        repo_name = parts[-2] + "/" + parts[-1]
+        clone_and_scan(target, repo_name, dry_run=dry_run, max_age_days=max_age_days)
+        planned += 1
+        if planned >= max_new:
+            print("   [cap] reached --max-new " + str(max_new) + " for targets.txt")
+            break
+    return planned
 
 def main():
+    parser = argparse.ArgumentParser(description="Argus Bulk Hunter")
+    parser.add_argument("--max-new", type=int, default=10)
+    parser.add_argument("--max-age-days", type=int, default=30)
+    parser.add_argument("--only-new", action="store_true")
+    parser.add_argument("--no-discovery", action="store_true")
+    parser.add_argument("--dry-run", action="store_true")
+    args = parser.parse_args()
+
     if not GITHUB_TOKEN:
-        print("❌ Please set GITHUB_TOKEN environment variable.")
+        print("Please set GITHUB_TOKEN environment variable.")
         return
 
     RESULTS_DIR.mkdir(exist_ok=True)
-    print("🚀 Starting Argus Bulk Hunter v2.0 (Pro Mode)...")
-    process_targets()
-    
-    search_queries = [
-        "filename:settings.local.json path:.claude",
-        "filename:.env language:python",
-        "filename:config.js language:javascript"
-    ]
-    
-    processed_repos = set()
-    for query in search_queries:
-        items = search_github(query, max_pages=3)
-        for item in items:
-            repo_name = item['repository']['full_name']
-            if repo_name not in processed_repos:
-                repo_url = item['repository']['html_url'] + ".git"
-                clone_and_scan(repo_url, repo_name)
-                processed_repos.add(repo_name)
+    mode = " [DRY RUN]" if args.dry_run else ""
+    print("Starting Argus Bulk Hunter v2.0 (Pro Mode)" + mode + "...")
+
+    manifest = _load_manifest()
+    print("[manifest] " + str(len(manifest)) + " repos tracked")
+
+    total = 0
+    if not args.only_new:
+        total += process_targets(dry_run=args.dry_run, max_new=args.max_new,
+                                 max_age_days=args.max_age_days)
+
+    if not args.no_discovery:
+        # Query pool — 12 targets, rotate 3 per run so each run sees
+        # different repos without relying on GitHub API date filters
+        # (pushed:/created: only work on /search/repositories, not /search/code).
+        QUERY_POOL = [
+            "filename:settings.local.json path:.claude",
+            "filename:.env language:python",
+            "filename:.env language:javascript",
+            "filename:config.js language:javascript",
+            "filename:config.json language:javascript",
+            "filename:credentials language:python",
+            "filename:secrets.yml",
+            "filename:secrets.yaml",
+            "filename:.aws/credentials",
+            "path:.claude settings.json",
+            "filename:.env.example",
+            "filename:docker-compose.yml",
+        ]
+        state_path = BASE_DIR / ".search_state.json"
+        try:
+            state = json.loads(state_path.read_text()) if state_path.exists() else {}
+        except Exception:
+            state = {}
+        offset = int(state.get("offset", 0)) % len(QUERY_POOL)
+        chosen = [QUERY_POOL[(offset + i) % len(QUERY_POOL)] for i in range(3)]
+        state["offset"] = (offset + 3) % len(QUERY_POOL)
+        state_path.write_text(json.dumps(state, indent=2))
+        search_queries = chosen
+        print("[discovery] queries " + str(offset + 1) + "-" + str(offset + 3) + " of " + str(len(QUERY_POOL)))
+        for q in chosen:
+            print("  - " + q)
+
+        processed = set()
+        for query in search_queries:
+            items = search_github(query, max_pages=3)
+            for item in items:
+                repo_name = item["repository"]["full_name"]
+                if repo_name in processed:
+                    continue
+                processed.add(repo_name)
+                ok, reason = should_scan(repo_name, max_age_days=args.max_age_days, manifest=manifest)
+                if not ok:
+                    continue
+                if total >= args.max_new:
+                    print("[cap] reached --max-new " + str(args.max_new) + ", stopping discovery")
+                    break
+                repo_url = item["repository"]["html_url"] + ".git"
+                clone_and_scan(repo_url, repo_name, dry_run=args.dry_run,
+                               max_age_days=args.max_age_days, manifest=manifest)
+                total += 1
+
+    print("[done] processed " + str(total) + " repos")
 
 if __name__ == "__main__":
     main()

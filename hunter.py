@@ -18,6 +18,13 @@ logger = logging.getLogger(__name__)
 # Configuration
 GITHUB_TOKEN = os.getenv("GITHUB_TOKEN")
 BASE_DIR = Path(__file__).parent.resolve()
+
+# Ensure subprocesses (semgrep, gitleaks, trufflehog, analyzer) see venv/bin
+# on PATH regardless of how hunter.py was launched (shell, cron, systemd).
+import os
+_VENV_BIN = BASE_DIR / "venv" / "bin"
+if _VENV_BIN.exists():
+    os.environ["PATH"] = str(_VENV_BIN) + os.pathsep + os.environ.get("PATH", "")
 ARGUS_PATH = BASE_DIR / "argus-core"
 RESULTS_DIR = BASE_DIR / "findings"
 TARGETS_FILE = BASE_DIR / "targets.txt"
@@ -128,25 +135,44 @@ def clone_and_scan(repo_url, repo_name, dry_run=False, max_age_days=30, manifest
         print("   [dry-run] would scan " + repo_name + " (" + reason + ")")
         return
 
-    # 1. Clone if needed
-    max_retries = 3
-    for attempt in range(max_retries):
-        try:
-            subprocess.run(
-                ["git", "clone", "--depth", "1", repo_url, str(target_dir)], 
-                capture_output=True, 
-                check=True, 
-                timeout=120  # Increased to 2 minutes
-            )
-            break # Success, exit loop
-        except subprocess.TimeoutExpired:
-            print(f"   ⚠️ Clone timed out (attempt {attempt + 1}/{max_retries}). Retrying...")
-            if attempt == max_retries - 1:
-                print(f"   ❌ Failed to clone {repo_name} after {max_retries} attempts.")
+    # 1. Clone if needed -- handle three states cleanly:
+    #    (a) dir exists with content -> assume prior scan, skip clone
+    #    (b) dir exists but empty     -> remove, re-clone
+    #    (c) dir doesn't exist        -> clone
+    if target_dir.exists():
+        if any(target_dir.iterdir()):
+            print(f"   (using existing clone of {repo_name})")
+        else:
+            print(f"   (removing empty {target_dir.name}, will re-clone)")
+            shutil.rmtree(target_dir)
+
+    if not target_dir.exists():
+        max_retries = 3
+        cloned = False
+        for attempt in range(max_retries):
+            try:
+                subprocess.run(
+                    ["git", "clone", "--depth", "1", repo_url, str(target_dir)],
+                    capture_output=True,
+                    check=True,
+                    timeout=120
+                )
+                cloned = True
+                break
+            except subprocess.TimeoutExpired:
+                print(f"   Clone timed out (attempt {attempt + 1}/{max_retries}), retrying...")
+                shutil.rmtree(target_dir, ignore_errors=True)
+                if attempt == max_retries - 1:
+                    print(f"   Failed to clone {repo_name} after {max_retries} attempts, marking skipped")
+                    mark_scanned(repo_name)
+                    return
+            except subprocess.CalledProcessError as e:
+                err = e.stderr.decode() if e.stderr else "unknown error"
+                print(f"   Clone failed: {err[:200]}")
+                print(f"   Marking {repo_name} in manifest to skip next run")
+                shutil.rmtree(target_dir, ignore_errors=True)
+                mark_scanned(repo_name)
                 return
-        except subprocess.CalledProcessError as e:
-            print(f"   ❌ Git error: {e.stderr.decode() if e.stderr else 'Unknown error'}")
-            return
     
     # 2. Run Aggressive Gitleaks with Custom Config
     gitleaks_report = target_dir / "aggressive-gitleaks.json"
@@ -243,7 +269,6 @@ def clone_and_scan(repo_url, repo_name, dry_run=False, max_age_days=30, manifest
         # CLEANUP: Delete the .git folder to save space
         git_folder = target_dir / ".git"
         if git_folder.exists():
-            import shutil
             shutil.rmtree(git_folder)
             print(f"   🧹 Cleaned .git folder for {repo_name}")
         argus_folder = target_dir / ".argus"

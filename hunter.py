@@ -9,8 +9,12 @@ import shutil
 from pathlib import Path
 import argparse
 from datetime import datetime, timedelta
-logger = logging.getLogger(__name__)
 
+# Add argus-core scripts to the Python path so we can import scanners
+ARGUS_SCRIPTS = Path(__file__).parent / "argus-core" / "scripts"
+sys.path.append(str(ARGUS_SCRIPTS))
+
+logger = logging.getLogger(__name__)
 # Configuration
 GITHUB_TOKEN = os.getenv("GITHUB_TOKEN")
 BASE_DIR = Path(__file__).parent.resolve()
@@ -165,6 +169,46 @@ def clone_and_scan(repo_url, repo_name, dry_run=False, max_age_days=30, manifest
     except Exception as e:
         print("   gitleaks error: " + str(e))
 
+    # 2.5  Verify High-Value Secrets (Runs immediately after Gitleaks)
+    try:
+        from scanners.verifier import SecretVerifier
+        verifier = SecretVerifier()
+        
+        gitleaks_report = target_dir / "aggressive-gitleaks.json"
+        if gitleaks_report.exists():
+            with open(gitleaks_report, 'r') as f:
+                findings = json.load(f)
+            
+            active_secrets = 0
+            for finding in findings:
+                secret = finding.get('Secret', '')
+                context = finding.get('File', '')
+                
+                # Run verification
+                verification = verifier.identify_and_verify(secret, context)
+                
+                # Update the finding with verification status
+                finding['verification_status'] = verification.get('status', 'UNKNOWN')
+                finding['verification_type'] = verification.get('type', 'UNKNOWN')
+                
+                if verification['status'] == 'ACTIVE':
+                    active_secrets += 1
+                    logger.warning(f"   🚨 VERIFIED ACTIVE SECRET: {verification.get('details', '')} in {context}")
+
+            if active_secrets > 0:
+                print(f"   🔥 Found {active_secrets} VERIFIED ACTIVE secrets!")
+            else:
+                print(f"   ℹ️  No verified active secrets found in this batch.")
+                
+            # Save the updated findings back to the report
+            with open(gitleaks_report, 'w') as f:
+                json.dump(findings, f, indent=2)
+                
+    except ImportError:
+        print("   ⚠️ Verifier module not found. Skipping verification.")
+    except Exception as e:
+        print(f"   ⚠️ Verification error: {e}")
+
     # 3. Run TruffleHog (Great for base64 and history)
     trufflehog_report = target_dir / "trufflehog.json"
     trufflehog_cmd = [
@@ -275,13 +319,229 @@ def process_targets(dry_run=False, max_new=10, max_age_days=30):
             break
     return planned
 
+
+def interactive_launch():
+    """Interactive menu — entry point when hunter.py is run without args."""
+    if not sys.stdin.isatty():
+        print("Non-interactive stdin. Use flags (--help for usage).", file=sys.stderr)
+        sys.exit(2)
+
+    print("""
+╔══════════════════════════════════════════════════════════════════╗
+║   Argus Bulk Hunter v2.0 — Secret Scanner                        ║
+║   Interactive launcher (no args) / scriptable via flags (--help) ║
+╚══════════════════════════════════════════════════════════════════╝
+""")
+
+    token_ok = bool(GITHUB_TOKEN)
+    if not token_ok:
+        print("GITHUB_TOKEN not set. Discovery modes require it; local-path scans work.")
+
+    while True:
+        print("""
+  What do you want to do?
+
+    [1] Scan a specific repo (GitHub URL or local path)
+    [2] Discover & scan new repos (bounded rotation)
+    [3] Re-scan already-cloned repos in findings/
+    [4] Dry-run only (show plan, no clones/scans)
+    [5] Show help / all flags
+    [q] Quit
+""")
+        choice = input("  Choice [1-5, q]: ").strip().lower()
+        if choice in ("q", "quit", "exit"):
+            print("Bye.")
+            return
+        if choice == "5" or choice == "help":
+            _print_help()
+            continue
+        if choice == "1":
+            _launch_specific_repo()
+            return
+        if choice == "2":
+            if not token_ok:
+                print("Mode 2 needs GITHUB_TOKEN. Use mode 1 with a local path.")
+                continue
+            _launch_discovery()
+            return
+        if choice == "3":
+            _launch_rescan()
+            return
+        if choice == "4":
+            _launch_dryrun()
+            return
+        print(f"  Unknown choice: {choice!r}")
+
+
+def _print_help():
+    import argparse
+    p = _build_parser()
+    p.print_help()
+
+
+def _build_parser():
+    import argparse
+    p = argparse.ArgumentParser(
+        description="Argus Bulk Hunter — find secrets in repos.\n\n"
+                    "Run with no args for an interactive launcher; use flags for scripting.",
+        formatter_class=argparse.RawDescriptionHelpFormatter,
+        epilog="""examples:
+  python hunter.py                                    # interactive menu
+  python hunter.py --dry-run --only-new --max-new=3   # show plan for 3 new repos
+  python hunter.py --only-new --max-new=5             # discover+scan 5 new
+  python hunter.py --no-discovery --max-age-days=7    # re-scan stale locally
+""",
+    )
+    p.add_argument("--max-new", type=int, default=10,
+                   help="Max new repos to scan per run (default: 10)")
+    p.add_argument("--max-age-days", type=int, default=30,
+                   help="Rescan repos older than N days (default: 30)")
+    p.add_argument("--only-new", action="store_true",
+                   help="Skip targets.txt, only do GitHub discovery")
+    p.add_argument("--no-discovery", action="store_true",
+                   help="Skip GitHub discovery, only scan targets.txt")
+    p.add_argument("--dry-run", action="store_true",
+                   help="Print the plan, do not clone or scan")
+    return p
+
+
+def _ask_scanner_set():
+    print("""
+  Which scanners?
+
+    [1] Fast (secrets only: gitleaks + argus agent-config)
+    [2] Standard (secrets + semgrep + trivy + checkov)   <- default
+    [3] Deep (standard + supply-chain + nuclei + threat-intel)
+    [4] Everything (all 14 — slow, ~3-5min per repo)
+""")
+    pick = input("  Choice [1-4, default 2]: ").strip() or "2"
+    presets = {
+        "1": ["--enable-gitleaks", "--enable-agent-config"],
+        "2": ["--enable-gitleaks", "--enable-semgrep", "--enable-trivy",
+              "--enable-checkov", "--enable-agent-config"],
+        "3": ["--enable-gitleaks", "--enable-semgrep", "--enable-trivy",
+              "--enable-checkov", "--enable-agent-config",
+              "--enable-supply-chain", "--enable-nuclei-templates",
+              "--enable-threat-intel"],
+        "4": [],
+    }
+    return presets.get(pick, presets["2"])
+
+
+def _ask_yes_no(prompt, default=False):
+    suffix = " [Y/n]" if default else " [y/N]"
+    ans = input(prompt + suffix + ": ").strip().lower()
+    if not ans:
+        return default
+    return ans in ("y", "yes")
+
+
+def _launch_specific_repo():
+    print("\n  -- Mode 1: Scan a specific repo --\n")
+    target = input("  URL or local path: ").strip()
+    if not target:
+        print("  Cancelled.")
+        return
+
+    is_url = target.startswith(("http://", "https://", "git@"))
+    if is_url:
+        url = target.rstrip("/").replace(".git", "")
+        if url.startswith("git@"):
+            parts = url.split(":")[-1].split("/")
+        else:
+            parts = url.split("/")[-2:]
+        if len(parts) < 2:
+            print(f"  Can't parse org/repo from {target!r}")
+            return
+        repo_name = parts[-2] + "/" + parts[-1]
+        print("  -> will clone and scan: " + repo_name)
+    else:
+        local = Path(target).resolve()
+        if not local.exists():
+            print(f"  Path does not exist: {local}")
+            return
+        repo_name = local.name
+        print(f"  -> will scan local path: {local}")
+
+    scanner_flags = _ask_scanner_set()
+    dry = _ask_yes_no("  Dry-run only (no actual scan)?", default=False)
+
+    if dry:
+        if is_url:
+            print(f"  [dry-run] would clone {target} -> findings/{repo_name.replace('/', '_')}")
+        print(f"  [dry-run] scanner flags: {' '.join(scanner_flags) or '(all defaults)'}")
+        return
+
+    if is_url:
+        clone_and_scan(target, repo_name)
+    else:
+        analyzer = ARGUS_PATH / "scripts" / "hybrid_analyzer.py"
+        subprocess.run([sys.executable, str(analyzer), str(local),
+                        "--no-enable-ai-enrichment", "--no-enable-multi-agent"]
+                       + scanner_flags)
+
+
+def _launch_discovery():
+    print("\n  -- Mode 2: Discovery & rotation --\n")
+    max_new = input("  Max new repos this run [default 5]: ").strip() or "5"
+    max_age = input("  Rescan repos older than N days [default 30]: ").strip() or "30"
+    dry = _ask_yes_no("  Dry-run only?", default=False)
+
+    argv = ["--only-new", "--max-new=" + max_new, "--max-age-days=" + max_age]
+    if dry:
+        argv.append("--dry-run")
+    print("\n  -> running: python hunter.py " + " ".join(argv) + "\n")
+    old = sys.argv[:]
+    try:
+        sys.argv = ["hunter.py"] + argv
+        main()
+    finally:
+        sys.argv = old
+
+
+def _launch_rescan():
+    print("\n  -- Mode 3: Re-scan already-cloned repos --\n")
+    if not RESULTS_DIR.exists():
+        print(f"  {RESULTS_DIR} does not exist. Try mode 1 or 2 first.")
+        return
+    repos = [d.name for d in RESULTS_DIR.iterdir() if d.is_dir() and not d.name.startswith(".")]
+    if not repos:
+        print(f"  No repos in {RESULTS_DIR}. Try mode 1 or 2 first.")
+        return
+    print(f"  Found {len(repos)} cloned repos:")
+    for r in repos[:20]:
+        print("    - " + r)
+    if len(repos) > 20:
+        print(f"    ... and {len(repos) - 20} more")
+
+    dry = _ask_yes_no("  Dry-run only?", default=False)
+    max_age = input("  Rescan only repos older than N days [default 30]: ").strip() or "30"
+
+    argv = ["--max-age-days=" + max_age, "--no-discovery"]
+    if dry:
+        argv.append("--dry-run")
+    print("\n  -> running: python hunter.py " + " ".join(argv) + "\n")
+    old = sys.argv[:]
+    try:
+        sys.argv = ["hunter.py"] + argv
+        main()
+    finally:
+        sys.argv = old
+
+
+def _launch_dryrun():
+    print("\n  -- Mode 4: Dry-run (show plan) --\n")
+    print("  Shows what the tool WOULD do, without cloning or scanning.\n")
+    old = sys.argv[:]
+    try:
+        sys.argv = ["hunter.py", "--dry-run", "--only-new", "--max-new=10"]
+        main()
+    finally:
+        sys.argv = old
+
+
 def main():
-    parser = argparse.ArgumentParser(description="Argus Bulk Hunter")
-    parser.add_argument("--max-new", type=int, default=10)
-    parser.add_argument("--max-age-days", type=int, default=30)
-    parser.add_argument("--only-new", action="store_true")
-    parser.add_argument("--no-discovery", action="store_true")
-    parser.add_argument("--dry-run", action="store_true")
+    parser = _build_parser()
     args = parser.parse_args()
 
     if not GITHUB_TOKEN:
@@ -354,4 +614,7 @@ def main():
     print("[done] processed " + str(total) + " repos")
 
 if __name__ == "__main__":
-    main()
+    if len(sys.argv) == 1:
+        interactive_launch()
+    else:
+        main()

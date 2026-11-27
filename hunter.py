@@ -320,7 +320,9 @@ def clone_and_scan(repo_url, repo_name, dry_run=False, max_age_days=30, manifest
         
         mark_scanned(repo_name)
     except subprocess.TimeoutExpired:
-        print(f"   ❌ Argus Scan timed out for {repo_name}")
+        print(f"   ❌ Argus Scan timed out for {repo_name}, marking to skip")
+        mark_scanned(repo_name)  # don't retry next run
+        return
     except Exception as e:
         print(f"   ❌ Argus Error: {e}")
 
@@ -590,18 +592,32 @@ def main():
         # different repos without relying on GitHub API date filters
         # (pushed:/created: only work on /search/repositories, not /search/code).
         QUERY_POOL = [
+            # Existing (kept for rotation completeness)
             "filename:settings.local.json path:.claude",
             "filename:.env language:python",
             "filename:.env language:javascript",
             "filename:config.js language:javascript",
-            "filename:config.json language:javascript",
             "filename:credentials language:python",
-            "filename:secrets.yml",
-            "filename:secrets.yaml",
-            "filename:.aws/credentials",
             "path:.claude settings.json",
-            "filename:.env.example",
-            "filename:docker-compose.yml",
+            "filename:docker-compose.yml language:yaml",
+            # Higher-signal: production configs, not tutorials
+            "filename:.env -filename:.env.example language:python",
+            "filename:config.yaml -path:test language:yaml",
+            "filename:application-prod.yml language:yaml",
+            "filename:application-prod.properties language:java",
+            "filename:settings.py -path:test",
+            "filename:.npmrc",
+            "filename:.pypirc",
+            "filename:credentials.json",
+            "filename:service-account.json",
+            "filename:firebase-adminsdk language:json",
+            "filename:id_rsa -path:test",
+            "filename:id_ed25519",
+            "filename:.pgpass",
+            "filename:wp-config.php",
+            "filename:.htpasswd",
+            "filename:terraform.tfvars",
+            "filename:.gitlab-ci.yml -path:test",
         ]
         state_path = BASE_DIR / ".search_state.json"
         try:
